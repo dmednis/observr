@@ -1,0 +1,19 @@
+{
+  "name": "bugmetrics",
+  "version": "1.0.0",
+  "description": "Error report gathering service.",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dmednis/bugmetrics.git"
+  },
+  "author": "dmednis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dmednis/bugmetrics/issues"
+  },
+  "homepage": "https://github.com/dmednis/bugmetrics"
+}
