@@ -15,5 +15,25 @@
   "bugs": {
     "url": "https://github.com/dmednis/bugmetrics/issues"
   },
-  "homepage": "https://github.com/dmednis/bugmetrics"
+  "homepage": "https://github.com/dmednis/bugmetrics",
+  "dependencies": {
+    "bluebird": "^3.3.4",
+    "body-parser": "^1.15.0",
+    "cli-color": "^1.1.0",
+    "cookie-parser": "^1.4.1",
+    "express": "^4.13.4",
+    "jsonwebtoken": "^5.7.0",
+    "lodash": "^4.8.2",
+    "morgan": "^1.7.0",
+    "pg": "^4.5.3",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.21.0",
+    "sequelize-cli": "^2.3.1",
+    "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "phantomjs": "^2.1.3",
+    "supertest": "^1.2.0"
+  }
 }

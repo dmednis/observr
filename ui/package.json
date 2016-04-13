@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/dmednis/bugmetrics/issues"
   },
-  "homepage": "https://github.com/dmednis/bugmetrics"
+  "homepage": "https://github.com/dmednis/bugmetrics",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-less": "^3.0.5"
+  }
 }
