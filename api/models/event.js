@@ -1,6 +1,6 @@
 /**
  *
- * Project model for Sequelize ORM
+ * Event model for Sequelize ORM
  *
  * @param sequelize
  * @param DataTypes
@@ -8,8 +8,8 @@
  * @constructor
  *
  */
-var Project = function (sequelize, DataTypes) {
-    return sequelize.define('project', {
+var SystemEvent = function (sequelize, DataTypes) {
+    return sequelize.define('event', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -17,23 +17,21 @@ var Project = function (sequelize, DataTypes) {
             allowNull: false
         },
         name: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING
         },
-        options: {
+        data: {
             type: DataTypes.JSONB
         }
     }, {
         underscored: true,
         paranoid: true,
-        tableName: 'projects',
+        tableName: 'event',
         classMethods: {
             associate: function (models) {
-                this.belongsToMany(models.user, {through: models.projectUsers});
-                this.hasMany(models.error);
+                this.belongsTo(models.project)
             }
         }
     });
 };
 
-module.exports = Project;
+module.exports = SystemEvent;

@@ -11,42 +11,45 @@ var helpers = require('../services/helpers.js');
 var db = {};
 
 if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable]);
+    var sequelize = new Sequelize(process.env[config.use_env_variable]);
 } else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, _.merge(config, {
-    timezone: '+02:00',
-    logging: env == 'development' ? console.log : false,
-    dialectOptions: {
-      charset: 'utf8',
-      collation: 'utf8_general_ci'
-    },
-    define: helpers
-  }));
+    var sequelize = new Sequelize(config.database, config.username, config.password, _.merge(config, {
+        timezone: '+02:00',
+        logging: env == 'development' ? console.log : false,
+        dialectOptions: {
+            charset: 'utf8',
+            collation: 'utf8_general_ci'
+        },
+        define: helpers
+    }));
 }
 
 fs
     .readdirSync(__dirname)
     .filter(function (file) {
-      return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+        return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
     })
     .forEach(function (file) {
-      var model = sequelize['import'](path.join(__dirname, file));
-      db[model.name] = model;
+        var model = sequelize['import'](path.join(__dirname, file));
+        db[model.name] = model;
     });
 
 Object.keys(db).forEach(function (modelName) {
-  db[modelName].describe()
-      .then(function (description) {
-        db[modelName].described = description;
-      });
+    db[modelName].describe()
+        .then(function (description) {
+            db[modelName].described = description;
+        });
 
-    db[modelName].sync()
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+    //db[modelName].sync();
+    if (db[modelName].associate) {
+        db[modelName].associate(db);
+    }
+
 
 
 });
+
+sequelize.sync();
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

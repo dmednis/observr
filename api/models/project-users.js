@@ -1,6 +1,6 @@
 /**
  *
- * Project model for DataTypes ORM
+ * Project model for Sequelize ORM
  *
  * @param sequelize
  * @param DataTypes
@@ -9,18 +9,18 @@
  *
  */
 var Project = function (sequelize, DataTypes) {
-  return sequelize.define('projectUsers', {
-    role: {
-      type: DataTypes.ENUM('user', 'poweruser', 'owner'),
-      defaultValue: 'user',
-      allowNull: false
-    }
-  }, {
-    underscored: true,
-    paranoid: false,
-    timestamps: false,
-    tableName: 'project_users'
-  });
+    return sequelize.define('projectUsers', {
+        role: {
+            type: DataTypes.ENUM('user', 'poweruser', 'owner'),
+            defaultValue: 'user',
+            allowNull: false
+        }
+    }, {
+        underscored: true,
+        paranoid: false,
+        timestamps: false,
+        tableName: 'project_users'
+    });
 };
 
 module.exports = Project;
