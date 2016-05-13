@@ -130,7 +130,7 @@ function Loader(_app) {
     return this;
 
 
-    function requestHandler(req, res) {
+    function requestHandler(req, res, next) {
         var that = this;
         var resolved;
 
@@ -172,11 +172,7 @@ function Loader(_app) {
 
         if (returned) {
             returned.catch(function (err) {
-                if (app.debug) {
-                    res.status(500).json(err);
-                } else {
-                    res.status(500).json({message: 'server error'})
-                }
+                next(err);
                 console.log(err.stack);
             });
         }

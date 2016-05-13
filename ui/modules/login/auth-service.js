@@ -1,11 +1,11 @@
-app.factory('AuthService', ['$rootScope', '$http', '$rpc', '$q', 'localStorageService', AuthService]);
+app.factory('AuthService', ['$rootScope', '$http', '$rpc', '$q', '$localStorage', AuthService]);
 
 function AuthService($rootScope, $http, $rpc, $q, $localStorage) {
     'use strict';
     var service = {};
 
     service.login = function (username, password, callback) {
-        $rpc.auth.login({user: username, pass: password})
+        $rpc.auth.login({username: username, password: password})
             .then(function (res) {
                 if (res.data && res.data.user && res.data.token) {
                     callback({success: true, data: res.data});
@@ -23,30 +23,28 @@ function AuthService($rootScope, $http, $rpc, $q, $localStorage) {
     };
 
     service.getUser = function () {
-        var def = $q.defer();
-        if ($localStorage.get('token')) {
-            $http.defaults.headers.common['Authorization'] = 'Bearer ' + $localStorage.get('token');
+        if ($localStorage.token) {
+            $http.defaults.headers.common['Authorization'] = 'Bearer ' + $localStorage.token;
         }
-        $rpc.auth.user()
-            .then(function (res) {
-                $rootScope.user = res.data.user;
-                def.resolve($rootScope.user);
-            }, function (err) {
-                def.reject(err);
-            });
+        return $rpc.auth.user();
+    };
 
-        return def.promise;
+    service.checkPerms = function (state) {
+        console.log(state);
+
+        return true;
     };
 
     service.setCredentials = function (user, token) {
         $rootScope.user = user;
-        $localStorage.set('token', token);
+        $localStorage.token = token;
         $http.defaults.headers.common['Authorization'] = 'Bearer ' + token; 
     };
 
     service.clearCredentials = function () {
         $rootScope.user = {};
-        $localStorage.remove('token');
+        console.log("WTF");
+        delete $localStorage.token;
         $http.defaults.headers.common.Authorization = 'Bearer ';
         delete $http.defaults.headers.common.Authorization;
     };

@@ -1,3 +1,5 @@
+var bcrypt = require('bcrypt');
+
 function UsersController(_app) {
     this.app = _app;
     this.db = this.app.db;
@@ -29,6 +31,9 @@ UsersController.prototype.get = function (params, done) {
 };
 
 UsersController.prototype.new = function (params, done) {
+    if (params.password) {
+        params.password = bcrypt.hashSync(params.password, 10);
+    }
     return this.db.user.create(params)
         .then(function (user) {
             done(user);
@@ -38,6 +43,9 @@ UsersController.prototype.new = function (params, done) {
 UsersController.prototype.update = function (params, done) {
     var that = this;
     var user;
+    if (params.password) {
+        params.password = bcrypt.hashSync(params.password, 10);
+    }
     return that.db.sequelize.transaction({
         deferrable: that.db.Sequelize.Deferrable.SET_DEFERRED,
         logging: console.log

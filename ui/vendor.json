@@ -4,5 +4,5 @@
   "theme/js/app.js",
   "node_modules/angular/angular.js",
   "node_modules/angular-ui-router/release/angular-ui-router.js",
-  "node_modules/angular-local-storage/dist/angular-local-storage.js"
+  "node_modules/ngstorage/ngStorage.js"
 ]

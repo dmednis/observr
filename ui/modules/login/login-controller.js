@@ -1,9 +1,15 @@
-app.controller('LoginController', ['$scope', '$state', 'localStorageService', '$location', 'AuthService', LoginController]);
+app.controller('LoginController', ['$scope', '$rootScope', '$state', '$localStorage', '$location', '$http', 'AuthService', LoginController]);
 
-function LoginController($scope, $state, $localStorage, $location, Auth) {
+function LoginController($scope, $rootScope, $state, $localStorage, $location, $http, Auth) {
     "use strict";
 
     var lc = this;
+
+    //fckin magic
+    //prevents chrome from pre-rendering page
+    if (document.webkitVisibilityState == 'prerender' ||  document.visibilityState == 'prerender' || document.visibilityState[0] == 'prerender') {
+        alert('no thanks google');
+    }
 
     Auth.clearCredentials();
 
@@ -13,10 +19,10 @@ function LoginController($scope, $state, $localStorage, $location, Auth) {
         if (lc.loginForm.$valid) {
             Auth.login(lc.username.toLowerCase(), lc.password, function (response) {
                 if (response && response.success) {
-                    Auth.setCredentials(response.data);
-                    if ($localStorage.get('lastPath')) {
+                    Auth.setCredentials(response.data.user, response.data.token);
+                    if ($localStorage.lastPath) {
                         //TODO: implement lastpath
-                        $location.path($localStorage.get('lastPath'));
+                        $location.path($localStorage.lastPath);
                     } else {
                         $state.go('app.home');
                     }
