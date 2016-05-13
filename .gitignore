@@ -34,3 +34,5 @@ node_modules
 
 .idea/
 api/config/config.js
+.vagrant/
+public/

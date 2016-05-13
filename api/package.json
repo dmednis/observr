@@ -4,7 +4,9 @@
   "description": "Error report gathering service.",
   "main": "app.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "prestart": "mkdir -p /vagrant/api/node_modules && mkdir -p /home/vagrant/officer/node_modules && mount --bind /home/vagrant/officer/node_modules/ /vagrant/api/node_modules/",
+    "start": "NODE_ENV=local nodemon -L -V"
   },
   "repository": {
     "type": "git",

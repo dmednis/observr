@@ -1,0 +1,38 @@
+server {
+    listen       80;
+
+    root    /vagrant/public;
+
+    index index.html;
+
+    #location ~ ^/(html)/  {
+    #    root    /vagrant/public;
+    #}
+
+    #location ~ ^/(css|js)/  {
+    #    root    /vagrant/public;
+    #}
+
+    #location ~ ^/(png|jpg)/  {
+    #    root    /vagrant/public;
+    #}
+
+    location /api {
+        proxy_pass http://localhost:4100/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+
+    location /api/ {
+        proxy_pass http://localhost:4100/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+     }
+}

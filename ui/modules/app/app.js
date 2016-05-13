@@ -1,7 +1,8 @@
 var app = angular.module('officer', [
     'ui.router',
+    'LocalStorageModule',
     //'ui.bootstrap',
-    // 'RPC',
+    'RPC',
     // 'toaster',
     // 'dm.select2',
     // 'ngDialog'

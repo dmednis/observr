@@ -19,17 +19,21 @@
   "dependencies": {
     "admin-lte": "^2.3.3",
     "angular": "^1.5.5",
+    "angular-local-storage": "^0.2.7",
     "angular-ui-router": "^0.2.18",
     "bootstrap": "^3.3.6",
     "font-awesome": "^4.6.1",
+    "jquery": "^2.2.3"
+  },
+  "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.7",
     "gulp-concat": "^2.6.0",
     "gulp-file-include": "^0.13.7",
+    "gulp-htmlmin": "^2.0.0",
     "gulp-less": "^3.0.5",
     "gulp-rename": "^1.2.2",
     "gulp-sync": "^0.1.4",
-    "gulp-uglify": "^1.5.3",
-    "jquery": "^2.2.3"
+    "gulp-uglify": "^1.5.3"
   }
 }

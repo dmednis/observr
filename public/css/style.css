@@ -14606,3 +14606,6 @@ fieldset[disabled] .btn-yahoo.focus {
 .skin-blue.layout-top-nav .main-header > .logo:hover {
   background-color: #3b8ab8;
 }
+.form-control {
+  color: #777;
+}

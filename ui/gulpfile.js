@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     gulpSync = require('gulp-sync')(gulp),
     fileinclude = require('gulp-file-include'),
     rename = require('gulp-rename'),
+    htmlmin = require('gulp-htmlmin'),
     path = require('path');
 
 
@@ -102,6 +103,11 @@ gulp.task('templates', function () {
             basepath: 'modules'
         }))
         .on('error', handleError)
+        .pipe(htmlmin({
+            removeComments: true,
+           // collapseWhitespace: true
+        }))
+        .on('error', handleError)
         .pipe(gulp.dest(target.templates));
 });
 
@@ -122,6 +128,7 @@ gulp.task('assets:select2', function () {
 
 gulp.task('watch', function () {
     gulp.watch(source.scripts.app, ['scripts:app']);
+    gulp.watch("./theme/js/app.js", ['scripts:vendor']);
     gulp.watch(source.styles, ['styles']);
     gulp.watch(source.templates, ['templates']);
     gulp.watch("./modules/app/_index.html", ['templates:index']);

@@ -6,16 +6,17 @@ var Sequelize = require('sequelize');
 var _ = require('lodash');
 var basename = path.basename(module.filename);
 var env = process.env.NODE_ENV || 'development';
-var config = require(__dirname + '/../config/config.js')[env];
+var config = require(__dirname + '/../config/config.js');
+var dbConfig = config[env];
 var helpers = require('../services/helpers.js');
 var db = {};
 
 if (config.use_env_variable) {
-    var sequelize = new Sequelize(process.env[config.use_env_variable]);
+    var sequelize = new Sequelize(process.env[dbConfig.use_env_variable]);
 } else {
-    var sequelize = new Sequelize(config.database, config.username, config.password, _.merge(config, {
+    var sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, _.merge(dbConfig, {
         timezone: '+02:00',
-        logging: env == 'development' ? console.log : false,
+        logging: config.debug ? console.log : false,
         dialectOptions: {
             charset: 'utf8',
             collation: 'utf8_general_ci'

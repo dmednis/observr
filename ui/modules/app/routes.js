@@ -15,7 +15,7 @@ function routesConfig($stateProvider, $locationProvider, $urlRouterProvider) {
         .state('app', {
             url: '',
             abstract: true,
-            templateUrl: templatePath('app/_app.html'),
+            templateUrl: templatePath('app/_layout.html'),
             controller: 'AppController'
         })
         .state('login', {

@@ -12,22 +12,27 @@ function RPCProvider(_app, router) {
 
 RPCProvider.prototype.serve = function (req, res) {
     function makeFunc(func) {
-        if (['list', 'new'].indexOf(func.name) > -1) {
+        if (['list'].indexOf(func.name) > -1) {
             return "function(data,config){" +
                 "var params={params:data}; " +
-                "return $http." + func.method + "('/api" + func.url + "\',_.assign(params,config));" +
+                "return $http." + func.method + "('api" + func.url + "\',_.assign(params,config));" +
                 "}";
         } else if (['get'].indexOf(func.name) > -1) {
             return "function(id,data,config){" +
                 "var params={params:data}; " +
-                "return $http." + func.method + "('/api" + func.url.split(":")[0] + "\'+id,_.assign(params,config));}";
-        } else if (['get', 'update', 'delete'].indexOf(func.name) > -1) {
+                "return $http." + func.method + "('api" + func.url.split(":")[0] + "\'+id,_.assign(params,config));}";
+        } else if (['new'].indexOf(func.name) > -1) {
+            return "function(data,config){" +
+                "var params={params:data}; " +
+                "return $http." + func.method + "('api" + func.url.split(":")[0] + "\',data,config);}";
+        }
+        else if (['update', 'delete'].indexOf(func.name) > -1) {
             return "function(id,data,config){" +
                 "var params={params:data}; " +
-                "return $http." + func.method + "('/api" + func.url.split(":")[0] + "\'+id,data,_.assign(params,config));}";
+                "return $http." + func.method + "('api" + func.url.split(":")[0] + "\'+id,data,config);}";
         } else {
             return "function(data,config){" +
-                "return $http." + func.method + "('/api" + func.url + "\',data,config);" +
+                "return $http." + func.method + "('api" + func.url + "\',data,config);" +
                 "}";
         }
     }
