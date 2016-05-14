@@ -1,9 +1,9 @@
 <div class="wrapper">
-    <header class="main-header">
+    <header class="main-header" ng-controller="HeaderController as h">
         @@include('./navigation/_header.html')
     </header>
     <!-- Left side column. contains the logo and sidebar -->
-    <aside class="main-sidebar">
+    <aside class="main-sidebar" ng-controller="SidebarController as sb">
         @@include('./navigation/_sidebar.html')
     </aside>
 

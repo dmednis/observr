@@ -2,5 +2,6 @@ app.controller('AppController', ['$rootScope', '$scope', '$state', '$window', '$
 
 function AppController($rootScope, $scope, $state, $window, $timeout) {
     "use strict";
-
+    
+    var app = this;
 }

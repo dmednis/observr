@@ -21,7 +21,7 @@ AuthController.prototype.login = function (params, done) {
             username: params.username,
             status: true
         },
-        attributes: ['id', 'username', 'password', 'email', 'firstName', 'lastName']
+        attributes: ['id', 'username', 'password', 'email', 'emailHash', 'firstName', 'lastName']
     }).then(function (user) {
         if (!user) {
             throw {reason: 'invalid auth', code: 401};

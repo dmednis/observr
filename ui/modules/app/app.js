@@ -17,7 +17,6 @@ app.run(["$rootScope", "$state", "$stateParams", function ($rootScope, $state, $
         name: 'OFFICER',
         description: 'Catching your errors',
         year: ((new Date()).getFullYear())
-
     };
 
     $rootScope.user = {};

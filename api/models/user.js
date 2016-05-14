@@ -1,3 +1,4 @@
+var md5 = require('md5');
 /**
  *
  * User model for Sequelize ORM
@@ -26,6 +27,16 @@ var User = function (sequelize, DataTypes) {
         },
         email: {
             type: DataTypes.STRING
+        },
+        emailHash: {
+            type: DataTypes.VIRTUAL,
+            get: function () {
+                if (this.get('email')) {
+                    return md5(this.get('email'));
+                } else {
+                    return null;
+                }
+            }
         },
         firstName: {
             type: DataTypes.STRING,

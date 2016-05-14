@@ -16,18 +16,21 @@ function routesConfig($stateProvider, $locationProvider, $urlRouterProvider) {
             url: '',
             abstract: true,
             templateUrl: templatePath('app/_layout.html'),
-            controller: 'AppController'
+            controller: 'AppController',
+            controllerAs: 'app'
         })
         .state('login', {
             url: '/login',
-            title: 'Login',
             templateUrl: templatePath('login/_login.html'),
             controller: 'LoginController',
             controllerAs: 'lc'
         })
-        .state('app.home', {
+        .state('app.dashboard', {
             url: '/',
-            title: 'Home',
+            templateUrl: templatePath('dashboard/_dashboard.html')
+        })
+        .state('app.test', {
+            url: '/ul',
             templateUrl: templatePath('dashboard/_dashboard.html')
         });
         

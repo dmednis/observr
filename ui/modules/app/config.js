@@ -34,7 +34,7 @@ app.run(['$rpc', '$rootScope', '$state', 'AuthService', '$localStorage', functio
                 });
         } else if (toState.name == "login" && $rootScope.user.id) {
             event.preventDefault();
-            $state.go('app.home');
+            $state.go('app.dashboard');
         } else {
             if (!Auth.checkPerms(toState)) {
                 event.preventDefault();

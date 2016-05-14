@@ -24,7 +24,7 @@ function LoginController($scope, $rootScope, $state, $localStorage, $location, $
                         //TODO: implement lastpath
                         $location.path($localStorage.lastPath);
                     } else {
-                        $state.go('app.home');
+                        $state.go('app.dashboard');
                     }
                 } else if (response && response.error){
                     lc.authMsg = response.error || 'Error';
