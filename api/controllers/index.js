@@ -35,6 +35,7 @@ function Loader(_app) {
                         if (controller.public.indexOf(prop) != -1) {
                             isPublic = true;
                         }
+                        console.log(controller.name, prop, isPublic);
                         endpoints.push({
                             controller: controller,
                             ctrlName: controller.name,

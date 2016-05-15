@@ -29,10 +29,27 @@ function routesConfig($stateProvider, $locationProvider, $urlRouterProvider) {
             url: '/',
             templateUrl: templatePath('dashboard/_dashboard.html')
         })
-        .state('app.test', {
-            url: '/ul',
-            templateUrl: templatePath('dashboard/_dashboard.html')
-        });
+        .state('app.users', {
+            abstract: true,
+            url: "/users",
+            templateUrl: templatePath('users/_main.html')
+        })
+        .state('app.users.list', {
+            url: '',
+            templateUrl: templatePath('users/_list.html')
+        })
+        .state('app.users.edit', {
+            url: '/{id:int}',
+            templateUrl: templatePath('users/_form.html'),
+            controller: 'UserFormController',
+            controllerAs: 'uf'
+        })
+        .state('app.users.new', {
+            url: '/new',
+            templateUrl: templatePath('users/_form.html'),
+            controller: 'UserFormController',
+            controllerAs: 'uf'
+        })
         
     
 

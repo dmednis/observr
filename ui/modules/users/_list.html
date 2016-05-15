@@ -1,0 +1,55 @@
+<div class="col-md-12">
+    <div class="box spinner" ng-controller="GridController as ul" alias="ul" module="users">
+        <div class="box-header">
+            <div class="col-md-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default btn-flat">
+                          <i class="fa fa-search"></i>
+                      </button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-3">
+                <button ui-sref="app.users.new" type="button" class="btn btn-success btn-flat pull-right">
+                    <i class="fa fa-plus"></i> New user
+                </button>
+            </div>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table class="table table-striped table-bordered officer-grid">
+                <tr>
+                    <th col-header sortable="true" text="Name" key="firstName" click="ul.sortBy(key, sortable)" sort="ul.sort">
+                    <th col-header sortable="true" text="E-mail" key="email" click="ul.sortBy(key, sortable)" sort="ul.sort">
+                    <th col-header sortable="true" text="Role" key="role" click="ul.sortBy(key, sortable)" sort="ul.sort">
+                    <th></th>
+                </tr>
+                <tr ng-repeat="row in ul.rows">
+                    <td ng-bind="::(row.firstName + ' ' + row.lastName)" class="top-pad"></td>
+                    <td ng-bind="::row.email" class="top-pad"></td>
+                    <td ng-bind="::row.role" class="top-pad"></td>
+                    <td>
+                        <button ui-sref="app.users.edit({id: row.id})" type="button" class="btn btn-primary btn-sm btn-flat pull-right">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+
+        </div>
+    </div>
+    <!-- /.box -->
+</div>
+<!-- /.col -->

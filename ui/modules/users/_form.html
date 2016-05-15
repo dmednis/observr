@@ -1,0 +1,54 @@
+<div class="col-md-12">
+    <div class="box spinner">
+        <div class="box-header">
+            <div ng-show="uf.userId">
+                Edit user: <b ng-bind="::uf.user.firstName"></b> <b ng-bind="::uf.user.lastName"></b>
+            </div>
+            <div ng-show="!uf.userId">
+                New user
+            </div>
+        </div>
+        <div class="box-body">
+            <form name="userForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="firstName">First name</label>
+                            <input ng-model="uf.user.firstName" type="text" class="form-control" id="firstName" name="firstName" placeholder="First name">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last name</label>
+                            <input ng-model="uf.user.lastName" type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input ng-model="uf.user.email" type="email" class="form-control" id="email" name="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input ng-model="uf.password" type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="password-rpt">Password repeat</label>
+                            <input ng-model="uf.password2" type="password" class="form-control" id="password-rpt" name="password-rpt" placeholder="Repeat password">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box-footer">
+            <button ui-sref="app.users.list" type="button" class="btn btn-default btn-flat">
+                <i class="fa fa-arrow-left"></i> Cancel
+            </button>
+            <button type="button" class="btn btn-success btn-flat">
+                <i class="fa fa-save"></i> Save
+            </button>
+            <button ng-if="uf.userId" type="button" class="btn btn-danger btn-flat pull-right">
+                <i class="fa fa-trash"></i> Delete
+            </button>
+        </div>
+    </div>
+</div>

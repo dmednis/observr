@@ -3,7 +3,7 @@ var app = angular.module('officer', [
     'ngStorage',
     //'ui.bootstrap',
     'RPC',
-    // 'toaster',
+    'toaster',
     // 'dm.select2',
     // 'ngDialog'
 ]);

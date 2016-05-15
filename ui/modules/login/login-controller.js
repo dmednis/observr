@@ -27,9 +27,9 @@ function LoginController($scope, $rootScope, $state, $localStorage, $location, $
                         $state.go('app.dashboard');
                     }
                 } else if (response && response.error){
-                    lc.authMsg = response.error || 'Error';
+                    lc.authMessage = response.error || 'Error';
                 } else {
-                    lc.authMsg = 'Error';
+                    lc.authMessage = 'Error';
                 }
             });
         } else {

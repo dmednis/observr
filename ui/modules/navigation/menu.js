@@ -16,7 +16,7 @@ app.run(['$rootScope', function ($rootScope) {
             submenu: [
                 {
                     title: "Users",
-                    target: "app.test"
+                    target: "app.users.list"
                 }
             ]
         }

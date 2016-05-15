@@ -24,7 +24,7 @@ AuthController.prototype.login = function (params, done) {
         attributes: ['id', 'username', 'password', 'email', 'emailHash', 'firstName', 'lastName']
     }).then(function (user) {
         if (!user) {
-            throw {reason: 'invalid auth', code: 401};
+            done({message: 'invalid auth'}, 401);
         } else {
             if (bcrypt.compareSync(params.password, user.password)) {
                 var _user = user.get();
@@ -35,7 +35,7 @@ AuthController.prototype.login = function (params, done) {
                 var token = jwt.sign(tokeninfo, that.secret);
                 done({user: _user, token: token})
             } else {
-                throw {reason: 'invalid auth', code: 401};
+                done({message: 'invalid auth'}, 401);
             }
         }
     });

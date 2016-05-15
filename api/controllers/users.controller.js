@@ -5,7 +5,7 @@ function UsersController(_app) {
     this.db = this.app.db;
     this.name = 'users';
     this.exposed = '*';
-    this.public = [];
+    this.public = ['new', 'list'];
 
     return this;
 }
@@ -31,6 +31,7 @@ UsersController.prototype.get = function (params, done) {
 };
 
 UsersController.prototype.new = function (params, done) {
+    console.log("asd");
     if (params.password) {
         params.password = bcrypt.hashSync(params.password, 10);
     }
