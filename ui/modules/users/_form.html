@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    <div class="box spinner">
+    <div class="box box-primary spinner">
         <div class="box-header">
             <div ng-show="uf.userId">
                 Edit user: <b ng-bind="::uf.user.firstName"></b> <b ng-bind="::uf.user.lastName"></b>
@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="box-body">
-            <form name="uf.userForm">
+            <form name="uf.userForm" novalidate>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group" ng-class="{ 'has-error': uf.userForm.firstName.$invalid && (uf.userForm.firstName.$touched || uf.userForm.$submitted) }">

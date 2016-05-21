@@ -1,5 +1,5 @@
 {
-  "name": "bugmetrics",
+  "name": "observr",
   "version": "1.0.0",
   "description": "Error report gathering service.",
   "main": "app.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dmednis/bugmetrics.git"
+    "url": "https://github.com/dmednis/observr.git"
   },
   "author": "dmednis",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dmednis/bugmetrics/issues"
+    "url": "https://github.com/dmednis/observr/issues"
   },
-  "homepage": "https://github.com/dmednis/bugmetrics",
+  "homepage": "https://github.com/dmednis/observr",
   "dependencies": {
     "bcrypt": "^0.8.6",
     "bluebird": "^3.3.4",

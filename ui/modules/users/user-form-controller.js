@@ -10,7 +10,7 @@ function UserFormController($scope, $rootScope, $state, $stateParams, $rpc, $spi
     uf.userForm = {};
 
     if (uf.state == "app.users.profile") {
-        uf.userId = authUser.id;
+        uf.userId = uf.authUser.id;
     } else if (uf.state == "app.users.edit") {
         uf.userId = $stateParams.id;
     }
@@ -29,6 +29,11 @@ function UserFormController($scope, $rootScope, $state, $stateParams, $rpc, $spi
         $spinner.on('.spinner');
         $rpc.users.get(id)
             .then(function (res) {
+                if (!res.data) {
+                    $state.go('app.users.list');
+                    $toaster.pop('error', "User not found!");
+                    return;
+                }
                 uf.user = res.data;
                 $spinner.off('.spinner');
             }, function (err) {
@@ -60,7 +65,7 @@ function UserFormController($scope, $rootScope, $state, $stateParams, $rpc, $spi
             $toaster.pop('success', "User saved!");
             $spinner.off('.spinner');
         }, function (err) {
-            $toaster.pop('success', "Something went wrong!");
+            $toaster.pop('error', "Something went wrong!");
         })
     }
 

@@ -20,6 +20,18 @@ var Project = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
+        description: {
+            type: DataTypes.STRING
+        },
+        identifier: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        apiKey: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            field: 'api_key'
+        },
         options: {
             type: DataTypes.JSONB
         }

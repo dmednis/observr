@@ -1,0 +1,61 @@
+<div class="col-md-12">
+    <div class="box box-primary spinner">
+        <div class="box-header">
+            <div ng-if="pf.projectId">
+                Edit project: <b ng-bind="::pf.project.name"></b>
+            </div>
+            <div ng-show="!pf.projectId">
+                New project
+            </div>
+        </div>
+        <div class="box-body">
+            <form name="pf.projectForm" novalidate>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group" ng-class="{ 'has-error': pf.projectForm.name.$invalid && (pf.projectForm.name.$touched || pf.projectForm.$submitted) }">
+                            <label for="name">Project name</label>
+                            <input ng-model="pf.project.name" type="text" class="form-control" id="name" name="name" placeholder="Project name" required>
+                            <div ng-show="pf.projectForm.$submitted || pf.projectForm.name.$touched">
+                                <div ng-show="pf.projectForm.name.$error.required" class="help-block">
+                                    <i class="fa fa-exclamation"></i> Project name is required!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Description</label>
+                            <input ng-model="pf.project.description" type="text" class="form-control" id="description" name="description" placeholder="Description">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <pre>{{ pf.project | json }}</pre>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box-footer">
+            <button ui-sref="app.projects.list" type="button" class="btn btn-default btn-flat">
+                <i class="fa fa-arrow-left"></i> Cancel
+            </button>
+            <button ng-click="pf.saveProject()" type="button" class="btn btn-success btn-flat">
+                <i class="fa fa-save"></i> Save
+            </button>
+            <button ng-click="pf.deleteProject()" ng-if="pf.projectId" type="button" class="btn btn-danger btn-flat pull-right">
+                <i class="fa fa-trash"></i> Delete
+            </button>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="box box-primary spinner">
+
+    </div>
+</div>
+
+<script type="text/ng-template" id="deleteModal">
+    <h3>Are you sure you want to delete this user?</h3>
+    <hr>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button btn-default" ng-click="closeThisDialog(0)">Cancel</button>
+        <button type="button" class="ngdialog-button btn-danger" ng-click="confirm(1)">Delete</button>
+    </div>
+</script>

@@ -32,7 +32,7 @@ var SystemErrorEvent = function (sequelize, DataTypes) {
         tableName: 'error_events',
         classMethods: {
             associate: function (models) {
-                this.belongsTo(models.error)
+                this.belongsTo(models.error);
             }
         }
     });

@@ -3,9 +3,7 @@ app.run(['$rootScope', function ($rootScope) {
         angular.element(window).resize();
     })
 }]);
-window.addEventListener("storage", function(e) {
-    console.trace(e);
-}, false);
+
 app.config(['$localStorageProvider', function ($localStorageProvider) {
     $localStorageProvider.setKeyPrefix('officer');
 }]);

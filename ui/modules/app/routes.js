@@ -50,6 +50,29 @@ function routesConfig($stateProvider, $locationProvider, $urlRouterProvider) {
             controller: 'UserFormController',
             controllerAs: 'uf'
         })
+        .state('app.projects', {
+            abstract: true,
+            url: "/projects",
+            templateUrl: templatePath('projects/_main.html')
+        })
+        .state('app.projects.list', {
+            url: '',
+            templateUrl: templatePath('projects/_list.html'),
+            controller: 'ProjectListController',
+            controllerAs: 'pl'
+        })
+        .state('app.projects.edit', {
+            url: '/{id:int}',
+            templateUrl: templatePath('projects/_form.html'),
+            controller: 'ProjectFormController',
+            controllerAs: 'pf'
+        })
+        .state('app.projects.new', {
+            url: '/new',
+            templateUrl: templatePath('projects/_form.html'),
+            controller: 'ProjectFormController',
+            controllerAs: 'pf'
+        });
         
     
 

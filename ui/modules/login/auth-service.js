@@ -30,7 +30,7 @@ function AuthService($rootScope, $http, $rpc, $q, $localStorage) {
     };
 
     service.checkPerms = function (state) {
-        console.log(state);
+
 
         return true;
     };
@@ -43,7 +43,6 @@ function AuthService($rootScope, $http, $rpc, $q, $localStorage) {
 
     service.clearCredentials = function () {
         $rootScope.user = {};
-        console.log("WTF");
         delete $localStorage.token;
         $http.defaults.headers.common.Authorization = 'Bearer ';
         delete $http.defaults.headers.common.Authorization;

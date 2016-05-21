@@ -1,5 +1,5 @@
 {
-  "name": "bugmetrics-ui",
+  "name": "observr-ui",
   "version": "1.0.0",
   "description": "",
   "main": "index.html",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dmednis/bugmetrics"
+    "url": "https://github.com/dmednis/observr"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dmednis/bugmetrics/issues"
+    "url": "https://github.com/dmednis/observr/issues"
   },
-  "homepage": "https://github.com/dmednis/bugmetrics",
+  "homepage": "https://github.com/dmednis/observr",
   "dependencies": {
     "admin-lte": "^2.3.3",
     "angular": "^1.5.5",

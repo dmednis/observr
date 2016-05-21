@@ -28,7 +28,8 @@ var SystemError = function (sequelize, DataTypes) {
         tableName: 'error',
         classMethods: {
             associate: function (models) {
-                this.belongsTo(models.project)
+                this.belongsTo(models.project);
+                this.hasMany(models.errorEvent);
             }
         }
     });

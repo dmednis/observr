@@ -168,10 +168,15 @@ module.exports = {
         /**
          *
          * @param params
+         * @param overwrites
          * @param model
-         * @returns {{offset: *, limit: *, where: {}, order: Array}}
+         * @returns {{offset: *, limit: number, where: {}, order: Array}}
          */
-        makeGenericQuery: function (params, model) {
+        makeGenericQuery: function (params, overwrites, model) {
+            if (!model) {
+                model = this;
+            }
+
             var query = {
                 offset: params.offset ? params.offset : 0,
                 limit: params.limit ? params.limit : 10,
@@ -220,6 +225,8 @@ module.exports = {
                     }
                 }
             }
+
+            query = _.merge(query, overwrites);
 
             return query;
         }
