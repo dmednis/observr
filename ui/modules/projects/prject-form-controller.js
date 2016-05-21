@@ -16,9 +16,22 @@ function ProjectFormController($scope, $rootScope, $state, $rpc, $spinner, $toas
         pf.projectId = $stateParams.id;
     }
 
+    $rpc.users.list()
+        .then(function (res) {
+            var users = res.data.rows;
+            users.forEach(function (user) {
+               user.text = user.firstName + ' ' + user.lastName;
+            });
+            pf.userList = users;
+        }, function () {
+
+        });
+
+
     pf.saveProject = saveProject;
     pf.deleteProject = deleteProject;
 
+    pf.addMember = addMember;
 
     function init() {
         if (pf.projectId) {
@@ -68,6 +81,25 @@ function ProjectFormController($scope, $rootScope, $state, $rpc, $spinner, $toas
     
     function deleteProject() {
     
+    }
+
+    function addMember(userId, role) {
+        if (!userId || !role) {
+            return;
+        }
+        if (!pf.project.members) {
+            pf.project.members = {};
+        }
+        var user = _.find(pf.userList, function(u) {
+            return u.id == userId;
+        });
+        pf.project.members[user.id] = {
+            name: user.firstName + ' ' + user.lastName,
+            id: user.id,
+            role: role
+        };
+        pf.member = null;
+        pf.memberRole = null;
     }
 
     init();

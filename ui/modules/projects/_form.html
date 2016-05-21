@@ -25,8 +25,52 @@
                             <label for="name">Description</label>
                             <input ng-model="pf.project.description" type="text" class="form-control" id="description" name="description" placeholder="Description">
                         </div>
+                        <hr>
+                        <div class="form-group">
+                            <label>Project members</label>
+                            <div class="row mb10">
+                                <div class="col-md-6">
+                                    <select ng-model="pf.member" class="form-control" ng-options="user.id as user.text for user in pf.userList"></select>
+                                </div>
+                                <div class="col-md-5">
+                                    <select ng-model="pf.memberRole" class="form-control">
+                                        <option value="" selected disabled>Role</option>
+                                        <option value="member">Member</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1">
+                                    <div ng-click="pf.addMember(pf.member, pf.memberRole)" class="btn btn-default btn-flat btn-block"><i class="fa fa-plus"></i></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="list-group list-group-unbordered">
+                                        <li class="list-group-item" ng-repeat="member in pf.project.members">
+                                            <b ng-bind="member.name"></b> {{ member.role }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
+                        <div ng-if="::pf.projectId">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <b>API identifier:</b> {{ ::pf.project.identifier }}
+                                </li>
+                                <li class="list-group-item">
+                                    <b>API key:</b> {{ ::pf.project.apiKey }}
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Updated at:</b> {{ ::pf.project.updated_at | format_date }}
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Created at:</b> {{ ::pf.project.created_at | format_date }}
+                                </li>
+                            </ul>
+                        </div>
                         <pre>{{ pf.project | json }}</pre>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var md5 = require('md5');
 
 function ProjectsController(_app) {
     this.app = _app;
@@ -30,7 +31,7 @@ ProjectsController.prototype.get = function (params, done) {
 
 ProjectsController.prototype.new = function (params, done) {
     var project = params;
-    project.apiKey = "";
+    project.apiKey = md5(Date.UTC + project.name);
     project.identifier = _.kebabCase(project.name);
     return this.db.project.create(params)
         .then(function (project) {
@@ -41,7 +42,8 @@ ProjectsController.prototype.new = function (params, done) {
 
 ProjectsController.prototype.update = function (params, done) {
     var that = this;
-    var project;
+    delete params.identifier;
+    delete params.apiKey;
     return that.db.sequelize.transaction({
         deferrable: that.db.Sequelize.Deferrable.SET_DEFERRED,
         logging: console.log
