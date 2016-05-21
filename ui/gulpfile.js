@@ -41,6 +41,9 @@ var source = {
         select2: [
         //    "./bower_components/select2/select2.png",
         //    "./bower_components/select2/select2-spinner.gif"
+        ],
+        ico: [
+            './assets/favicon.ico'
         ]
     }
 };
@@ -53,10 +56,11 @@ var target = {
     fonts: '../public/fonts/',
     i18n: '../public/i18n/',
     public: '../public/',
-    select2: '../public/css/'
+    select2: '../public/css/',
+    ico: '../public/'
 };
 
-gulp.task('default', gulpSync.sync(['assets:images', 'assets:fonts', 'styles', 'scripts:vendor', 'scripts:app', 'assets:select2', 'templates', 'templates:index', 'watch']));
+gulp.task('default', gulpSync.sync(['assets:images', 'assets:fonts', 'styles', 'scripts:vendor', 'scripts:app', 'assets:select2', 'assets:ico', 'templates', 'templates:index', 'watch']));
 
 gulp.task('scripts:vendor', function () {
     var stream = gulp.src(source.scripts.vendor)
@@ -126,6 +130,12 @@ gulp.task('assets:select2', function () {
     return gulp.src(source.assets.select2)
         .pipe(gulp.dest(target.select2));
 });
+
+gulp.task('assets:ico', function () {
+    return gulp.src(source.assets.ico)
+        .pipe(gulp.dest(target.ico));
+});
+
 
 gulp.task('watch', function () {
     gulp.watch(source.scripts.app, ['scripts:app']);

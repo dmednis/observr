@@ -36,6 +36,8 @@ UsersController.prototype.new = function (params, done) {
     }
     return this.db.user.create(params)
         .then(function (user) {
+            user = user.get();
+            delete user.password;
             done(user);
         })
 };

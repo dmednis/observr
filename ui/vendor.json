@@ -8,5 +8,11 @@
   "node_modules/ngstorage/ngStorage.js",
   "node_modules/angularjs-toaster/toaster.js",
   "node_modules/select2/select2.js",
-  "node_modules/ng-dialog/js/ngDialog.js"
+  "node_modules/ng-dialog/js/ngDialog.js",
+  "node_modules/angular-ui-bootstrap/src/tabs/tabs.js",
+  "node_modules/angular-ui-bootstrap/template/tabs/tab.html.js",
+  "node_modules/angular-ui-bootstrap/template/tabs/tabset.html.js",
+  "node_modules/angular-ui-bootstrap/src/paging/paging.js",
+  "node_modules/angular-ui-bootstrap/src/pagination/pagination.js",
+  "node_modules/angular-ui-bootstrap/template/pagination/pagination.html.js"
 ]

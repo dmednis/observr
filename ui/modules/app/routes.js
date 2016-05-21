@@ -7,7 +7,7 @@ function routesConfig($stateProvider, $locationProvider, $urlRouterProvider) {
     $locationProvider.html5Mode(false);
 
     // default route
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/');
     //
     // Application Routes
     // ----------------------------------
