@@ -41,7 +41,7 @@ var Project = function (sequelize, DataTypes) {
         tableName: 'projects',
         classMethods: {
             associate: function (models) {
-                this.belongsToMany(models.user, {through: models.projectUsers});
+                this.belongsToMany(models.user, {as: 'members', through: models.projectUsers});
                 this.hasMany(models.error);
             }
         }

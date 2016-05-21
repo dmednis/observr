@@ -45,9 +45,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <ul class="list-group list-group-unbordered">
+                                    <ul class="list-group list-group-unbordered project-member-list">
                                         <li class="list-group-item" ng-repeat="member in pf.project.members">
                                             <b ng-bind="member.name"></b> {{ member.role }}
+                                            <div ng-click="pf.removeMember(member.id)" class="btn btn-danger btn-flat remove-btn"><i class="fa fa-times"></i></div>
                                         </li>
                                     </ul>
                                 </div>

@@ -21,7 +21,7 @@
         <h4><i class="icon fa fa-info"></i> No projects found!</h4>
         Add a project to start monitoring!
     </div>
-    <div class="col-md-4" ng-repeat="project in pl.projects">
+    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="project in pl.projects">
         <div class="box box-widget widget-user-2">
             <div class="project-widget bg-light-blue">
                 <div class="row">
@@ -33,7 +33,7 @@
                         <h5 ng-bind="::project.description"></h5>
                     </div>
                 </div>
-                <div ui-sref="app.projects.edit({id: project.id})" class="project-edit">
+                <div ui-sref="app.projects.edit({id: project.id})" ng-if="project.members[0].projectUsers.role == 'admin'" class="project-edit">
                     <i class="fa fa-cog fa-2x"></i>
                 </div>
             </div>
