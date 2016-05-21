@@ -20,7 +20,8 @@ var source = {
     },
     styles: [
         "./less/style.less",
-        "./less/libs.less"
+        "./less/libs.less",
+        "./less/components/**/*.less"
     ],
     templates: [
         "./modules/**/!(index)*.html"

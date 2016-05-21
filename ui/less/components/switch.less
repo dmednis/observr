@@ -1,0 +1,48 @@
+@import "../../theme/less/variables.less";
+@import "../../theme/less/mixins.less";
+
+.switch {
+  height: 34px;
+  margin-bottom: 15px;
+  position: relative;
+  width: 70px;
+  border: 1px solid @gray;
+  input {
+    cursor: pointer;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+    &:checked~label {
+      background: @light-blue;
+      color: #13ad4f;
+      div {
+        left: 37px;
+      }
+    }
+  }
+  label {
+    background: @body-bg;
+    border-radius: 1px;
+    color: #c72f18;
+    display: block;
+    height: 100%;
+    position: relative;
+    transition: all .15s ease;
+    width: 100%;
+    div {
+      background: #ffffff;
+      border-radius: 1px;
+      display: block;
+      height: 30px;
+      left: 1px;
+      position: absolute;
+      top: 1px;
+      transition: all .15s ease;
+      width: 30px;
+      z-index: 3;
+      border: 1px solid @gray;
+    }
+  }
+}

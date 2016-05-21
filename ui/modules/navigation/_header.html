@@ -46,14 +46,14 @@
                 <!-- Menu Toggle Button -->
                 <a  class="dropdown-toggle" data-toggle="dropdown">
                     <!-- The user image in the navbar-->
-                    <img ng-src="http://www.gravatar.com/avatar/{{ ::h.user.emailHash }}?s=90" class="user-image" alt="User Image">
+                    <img ng-src="http://www.gravatar.com/avatar/{{ ::h.user.emailHash }}?s=100&d=identicon" class="user-image" alt="User Image">
                     <!-- hidden-xs hides the username on small devices so only the image appears. -->
                     <span class="hidden-xs" ng-bind="::(h.user.firstName + ' ' + h.user.lastName)"></span>
                 </a>
                 <ul class="dropdown-menu">
                     <!-- The user image in the menu -->
                     <li class="user-header">
-                        <img ng-src="http://www.gravatar.com/avatar/{{ ::h.user.emailHash }}?s=90" class="img-circle" alt="User Image">
+                        <img ng-src="http://www.gravatar.com/avatar/{{ ::h.user.emailHash }}?s=100&d=identicon" class="img-circle" alt="User Image">
 
                         <p ng-bind="::(h.user.firstName + ' ' + h.user.lastName)"></p>
                     </li>

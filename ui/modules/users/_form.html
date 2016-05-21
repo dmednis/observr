@@ -9,32 +9,116 @@
             </div>
         </div>
         <div class="box-body">
-            <form name="userForm">
+            <form name="uf.userForm">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{ 'has-error': uf.userForm.firstName.$invalid && (uf.userForm.firstName.$touched || uf.userForm.$submitted) }">
                             <label for="firstName">First name</label>
-                            <input ng-model="uf.user.firstName" type="text" class="form-control" id="firstName" name="firstName" placeholder="First name">
+                            <input ng-model="uf.user.firstName" type="text" class="form-control" id="firstName" name="firstName" placeholder="First name" required>
+                            <div ng-show="uf.userForm.$submitted || uf.userForm.firstName.$touched">
+                                <div ng-show="uf.userForm.firstName.$error.required" class="help-block">
+                                    <i class="fa fa-exclamation"></i> First name is required!
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{ 'has-error': uf.userForm.lastName.$invalid && (uf.userForm.lastName.$touched || uf.userForm.$submitted) }">
                             <label for="lastName">Last name</label>
-                            <input ng-model="uf.user.lastName" type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name">
+                            <input ng-model="uf.user.lastName" type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name" required>
+                            <div ng-show="uf.userForm.$submitted || uf.userForm.lastName.$touched">
+                                <div ng-show="uf.userForm.lastName.$error.required" class="help-block">
+                                    <i class="fa fa-exclamation"></i> Last name is required!
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{ 'has-error': uf.userForm.username.$invalid && (uf.userForm.username.$touched || uf.userForm.$submitted) }">
+                            <label for="lastName">Username</label>
+                            <input ng-model="uf.user.username" type="text" class="form-control" id="username" name="username" placeholder="Last name" required>
+                            <div ng-show="uf.userForm.$submitted || uf.userForm.username.$touched">
+                                <div ng-show="uf.userForm.username.$error.required" class="help-block">
+                                    <i class="fa fa-exclamation"></i> Username is required!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error': uf.userForm.email.$invalid && (uf.userForm.email.$touched || uf.userForm.$submitted) }">
                             <label for="email">Email</label>
-                            <input ng-model="uf.user.email" type="email" class="form-control" id="email" name="email" placeholder="Email">
+                            <input ng-model="uf.user.email" type="email" class="form-control" id="email" name="email" placeholder="E-mail" email required>
+                            <div ng-show="uf.userForm.$submitted || uf.userForm.email.$touched">
+                                <div ng-show="uf.userForm.email.$error.required" class="help-block">
+                                    <i class="fa fa-exclamation"></i> E-mail is required!
+                                </div>
+                                <div ng-show="uf.userForm.email.$error.email" class="help-block">
+                                    <i class="fa fa-exclamation"></i> Supply a valid e-mail!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error': uf.userForm.role.$invalid && (uf.userForm.role.$touched || uf.userForm.$submitted) }">
+                            <label for="role">Role</label>
+                            <select ng-model="uf.user.role" name="role" id="role" class="form-control" required>
+                                <option value="" selected disabled>Role</option>
+                                <option value="user" selected>User</option>
+                                <option value="poweruser">Power user</option>
+                                <option value="admin">Administrator</option>
+                            </select>
+                            <div ng-show="uf.userForm.$submitted || uf.userForm.role.$touched">
+                                <div ng-show="uf.userForm.role.$error.required" class="help-block">
+                                    <i class="fa fa-exclamation"></i> Role is required!
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
+                            <label for="status">Status</label>
+                            <div class="switch">
+                                <input ng-model="uf.user.status" id="status" name="status" type="checkbox" checked>
+                                <label>
+                                    <div></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{'has-success': (uf.password && uf.password2) && uf.password == uf.password2, 'has-error': ((uf.password && uf.password2) && uf.password != uf.password2 )|| uf.userForm.password.$invalid && uf.userForm.password.$touched || (uf.state == 'app.users.new' && !uf.password && uf.userForm.$submitted)}">
                             <label for="password">Password</label>
                             <input ng-model="uf.password" type="password" class="form-control" id="password" name="password" placeholder="Password">
                         </div>
-                        <div class="form-group">
-                            <label for="password-rpt">Password repeat</label>
-                            <input ng-model="uf.password2" type="password" class="form-control" id="password-rpt" name="password-rpt" placeholder="Repeat password">
+                        <div class="form-group" ng-class="{'has-success': (uf.password && uf.password2) && uf.password == uf.password2, 'has-error': ((uf.userForm.password.$touched || uf.userForm.password2.$touched) && uf.password != uf.password2) || ((uf.userForm.password.$touched || uf.userForm.password2.$touched) && !uf.password && uf.password2) || (uf.state == 'app.users.new' && !uf.password && uf.userForm.$submitted)}">
+                            <label for="password2">Password 2x</label>
+                            <input ng-model="uf.password2" type="password" class="form-control" id="password2" name="password2" placeholder="Repeat password">
+                            <span ng-if="(uf.userForm.password.$touched || uf.userForm.password2.$touched) && (uf.password || uf.password2)" class="help-block">
+                                <i class="fa" ng-class="{'fa-check has-success': (uf.password && uf.password2) && uf.password == uf.password2, 'fa-times': (uf.userForm.password.$touched || uf.userForm.password2.$touched) && uf.password != uf.password2}"></i>
+                                <span ng-if="(uf.password && uf.password2) && uf.password == uf.password2">
+                                    Passwords match
+                                </span>
+                                 <span ng-if="(uf.userForm.password.$touched || uf.userForm.password2.$touched) && uf.password != uf.password2">
+                                     Passwords do not match
+                                 </span>
+                            </span>
                         </div>
+                         
                     </div>
                     <div class="col-md-6">
-
+                        <div ng-if="::uf.userId">
+                           <ul class="list-group">
+                                <li class="list-group-item bg-gray-light">
+                                    <b>Avatar:</b>
+                                    <img ng-src="http://www.gravatar.com/avatar/{{ ::uf.user.emailHash }}?s=100&d=identicon" class="mb20 profile-user-img img-responsive img-circle">
+                                    <i>Powered by Gravatar</i>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>ID:</b> {{ ::uf.user.id }}
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Last login:</b> {{ ::uf.user.lastLogin | format_date }}
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Last login IP:</b> {{ ::uf.user.lastLoginIP }}
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Updated at:</b> {{ ::uf.user.updated_at | format_date }}
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Created at:</b> {{ ::uf.user.created_at | format_date }}
+                                </li>
+                            </ul>
+                        </div>
+                        <pre>{{ uf.user | json }}</pre>
                     </div>
                 </div>
             </form>
@@ -43,12 +127,21 @@
             <button ui-sref="app.users.list" type="button" class="btn btn-default btn-flat">
                 <i class="fa fa-arrow-left"></i> Cancel
             </button>
-            <button type="button" class="btn btn-success btn-flat">
+            <button ng-click="uf.saveUser()" type="button" class="btn btn-success btn-flat">
                 <i class="fa fa-save"></i> Save
             </button>
-            <button ng-if="uf.userId" type="button" class="btn btn-danger btn-flat pull-right">
+            <button ng-click="uf.deleteUser()" ng-if="uf.userId && uf.userId != uf.authUser.id" type="button" class="btn btn-danger btn-flat pull-right">
                 <i class="fa fa-trash"></i> Delete
             </button>
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="deleteModal">
+    <h3>Are you sure you want to delete this user?</h3>
+    <hr>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button btn-default" ng-click="closeThisDialog(0)">Cancel</button>
+        <button type="button" class="ngdialog-button btn-danger" ng-click="confirm(1)">Delete</button>
+    </div>
+</script>

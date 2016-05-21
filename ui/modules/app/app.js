@@ -4,8 +4,8 @@ var app = angular.module('officer', [
     //'ui.bootstrap',
     'RPC',
     'toaster',
-    // 'dm.select2',
-    // 'ngDialog'
+    'dm.select2',
+    'ngDialog'
 ]);
 
 app.run(["$rootScope", "$state", "$stateParams", function ($rootScope, $state, $stateParams) {
