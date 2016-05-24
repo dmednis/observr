@@ -24,6 +24,11 @@ app.db = require('./models/index.js');
 
 app.services = {};
 
+var Queue = require('./services/queue.js');
+app.services.queue = new Queue();
+var Mailer = require('./services/mailer.js');
+app.services.mailer = new Mailer(app);
+
 var RoutesLoader = require('./controllers/index.js');
 var loader = RoutesLoader(app);
 app.use(loader.router);
