@@ -17,7 +17,7 @@ var LogCollection = function (sequelize, DataTypes) {
             allowNull: false
         },
         name: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING(30)
 
         },
         data: {

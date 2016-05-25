@@ -17,7 +17,8 @@ var SystemErrorEvent = function (sequelize, DataTypes) {
             allowNull: false
         },
         message: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING(255),
+            allowNull: false
 
         },
         stack: {
@@ -29,6 +30,7 @@ var SystemErrorEvent = function (sequelize, DataTypes) {
     }, {
         underscored: true,
         paranoid: false,
+        updatedAt: false,
         tableName: 'error_events',
         classMethods: {
             associate: function (models) {

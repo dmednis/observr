@@ -61,6 +61,7 @@ ProjectsController.prototype.get = function (params, done) {
 ProjectsController.prototype.new = function (params, done) {
     var project = params;
     project.apiKey = md5(Date.UTC + project.name);
+    //TODO: latinize identifier
     project.identifier = _.kebabCase(project.name);
     return this.db.project.create(params)
         .then(function (project) {

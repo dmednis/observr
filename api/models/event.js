@@ -17,7 +17,7 @@ var SystemEvent = function (sequelize, DataTypes) {
             allowNull: false
         },
         name: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING(30)
         },
         data: {
             type: DataTypes.JSONB
@@ -25,6 +25,7 @@ var SystemEvent = function (sequelize, DataTypes) {
     }, {
         underscored: true,
         paranoid: false,
+        updatedAt: false,
         tableName: 'event',
         classMethods: {
             associate: function (models) {

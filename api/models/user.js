@@ -18,15 +18,17 @@ var User = function (sequelize, DataTypes) {
             allowNull: false
         },
         username: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING(15),
+            allowNull: false,
+            unique: true
         },
         password: {
-            type: DataTypes.STRING,
+            type: DataTypes.CHAR(60),
             allowNull: false
         },
         email: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING(255),
+            allowNull: false
         },
         emailHash: {
             type: DataTypes.VIRTUAL,
@@ -39,15 +41,17 @@ var User = function (sequelize, DataTypes) {
             }
         },
         firstName: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(30),
             field: 'first_name'
         },
         lastName: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(30),
             field: 'last_name'
         },
         status: {
-            type: DataTypes.BOOLEAN
+            type: DataTypes.BOOLEAN,
+            defaultValue: true,
+            allowNull: false
         },
         role: {
             type: DataTypes.ENUM('user', 'poweruser', 'admin'),
@@ -62,7 +66,7 @@ var User = function (sequelize, DataTypes) {
             field: 'last_login'
         },
         lastLoginIP: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(45),
             field: 'last_login_ip'
         }
     }, {

@@ -17,18 +17,20 @@ var Project = function (sequelize, DataTypes) {
             allowNull: false
         },
         name: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING(30),
+            allowNull: false,
+            unique: true
         },
         description: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING(255)
         },
         identifier: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING(60),
+            allowNull: false,
+            unique: true
         },
         apiKey: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(32),
             allowNull: false,
             field: 'api_key'
         },

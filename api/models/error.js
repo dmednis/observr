@@ -17,10 +17,13 @@ var SystemError = function (sequelize, DataTypes) {
             allowNull: false
         },
         hash: {
-            type: DataTypes.STRING(32)
+            type: DataTypes.STRING(32),
+            allowNull: false,
         },
         resolved: {
-            type: DataTypes.BOOLEAN
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
     }, {
         underscored: true,

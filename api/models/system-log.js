@@ -17,8 +17,8 @@ var SystemLog = function (sequelize, DataTypes) {
             allowNull: false
         },
         event: {
-            type: DataTypes.STRING
-
+            type: DataTypes.STRING(30),
+            allowNull: false
         },
         data: {
             type: DataTypes.JSONB
@@ -26,6 +26,7 @@ var SystemLog = function (sequelize, DataTypes) {
     }, {
         underscored: true,
         tableName: 'system_logs',
+        updatedAt: false,
         classMethods: {
 
         }
