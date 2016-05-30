@@ -1,6 +1,15 @@
 var _ = require('lodash');
 var md5 = require('md5');
+var latinize = require('latinize');
 
+/**
+ *
+ * ProjectsController. Responsible for project REST API endpoints.
+ *
+ * @param _app
+ * @returns {ProjectsController}
+ * @constructor
+ */
 function ProjectsController(_app) {
     this.app = _app;
     this.db = this.app.db;
@@ -11,6 +20,15 @@ function ProjectsController(_app) {
     return this;
 }
 
+/**
+ *
+ * Returns list of projects.
+ *
+ * @param params
+ * @param done
+ * @param req
+ * @returns Promise
+ */
 ProjectsController.prototype.list = function (params, done, req) {
     var that = this;
     var query = this.db.project.makeGenericQuery(params, {attributes: {exclude: ['apiKey']}});
@@ -32,6 +50,14 @@ ProjectsController.prototype.list = function (params, done, req) {
         });
 };
 
+/**
+ *
+ * Returns a single project instance.
+ *
+ * @param params
+ * @param done
+ * @returns Promise
+ */
 ProjectsController.prototype.get = function (params, done) {
     var that = this;
     return this.db.project.findOne({
@@ -58,18 +84,52 @@ ProjectsController.prototype.get = function (params, done) {
     });
 };
 
+/**
+ *
+ * Creates a new project instance
+ *
+ * @param params
+ * @param done
+ * @returns Promise
+ */
 ProjectsController.prototype.new = function (params, done) {
+    var that = this;
     var project = params;
     project.apiKey = md5(Date.UTC + project.name);
-    //TODO: latinize identifier
-    project.identifier = _.kebabCase(project.name);
-    return this.db.project.create(params)
-        .then(function (project) {
-            project = project.get();
-            done(project);
-        });
+    project.identifier = _.kebabCase(latinize(project.name));
+    return that.db.sequelize.transaction({
+        deferrable: that.db.Sequelize.Deferrable.SET_DEFERRED,
+        logging: console.log
+    }, function (t) {
+        return that.db.project.create(params)
+            .then(function (_project) {
+                project = _project;
+                var userIds = [];
+                _.forOwn(params.members, function (val, key) {
+                    userIds.push(val.id)
+                });
+                return that.db.user.findAll({where: {id: {$in: userIds}}});
+            }).then(function (users) {
+                users.forEach(function (user) {
+                    user.projectUsers = {role: params.members[user.id].role};
+                });
+                return project.setMembers(users, {transaction: t});
+            }).then(function () {
+                project = project.get();
+                project.members = params.members;
+                done(project);
+            })
+    });
 };
 
+/**
+ *
+ * Updates an existing project instance.
+ *
+ * @param params
+ * @param done
+ * @returns Promise
+ */
 ProjectsController.prototype.update = function (params, done) {
     var that = this;
     delete params.identifier;
@@ -104,6 +164,14 @@ ProjectsController.prototype.update = function (params, done) {
     });
 };
 
+/**
+ *
+ * Marks a project instance as deleted.
+ *
+ * @param params
+ * @param done
+ * @returns Promise
+ */
 ProjectsController.prototype.delete = function (params, done) {
     return this.db.project.destroy({where: {id: params.id}})
         .then(function (project) {

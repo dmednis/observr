@@ -45,6 +45,7 @@ var Project = function (sequelize, DataTypes) {
             associate: function (models) {
                 this.belongsToMany(models.user, {as: 'members', through: models.projectUsers});
                 this.hasMany(models.error);
+                this.hasMany(models.event);
             }
         }
     });

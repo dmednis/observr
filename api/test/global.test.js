@@ -21,29 +21,51 @@ describe('Data models', function () {
     });
 });
 
-// describe('API', function () {
-//     it('API works', function (done) {
-//         request(app)
-//             .get('/')
-//             .expect(200, done);
-//     });
-//     for (var r = 0; r < app.routes.length; r++) {
-//         var route = app.routes[r];
-//         it('API endpoint ' + route.url + ' works', function (done) {
-//             if (route.auth) {
-//                 request(app)[route.method](route.url)
-//                     .expect(401, done);
-//             } else {
-//                 request(app)[route.method](route.url)
-//                     .expect(function (res) {
-//                         if (res.statusCode == 200 || res.statusCode == 400) {
-//                             return false;
-//                         } else {
-//                             return true;
-//                         }
-//                     })
-//                     .end(done)
-//             }
-//         })
-//     }
-// });
+describe('API', function () {
+    for (var r = 0; r < app.routes.length; r++) {
+        var route = app.routes[r];
+        it('API endpoint ' + route.url + ' works', function (done) {
+            request(app)[route.method](route.url)
+                .expect(function (res) {
+                    var statuses = [200, 400, 401];
+                    if (statuses.indexOf(res.statusCode) > -1) {
+                        return true;
+                    } else {
+                        throw new Error('Expected ' + statuses + ' got ' + res.statusCode);
+                    }
+                })
+                .end(done)
+        })
+    }
+
+    for (var r = 0; r < app.routes.length; r++) {
+        var route = app.routes[r];
+        it('API endpoint auth ' + route.url + ' works', function (done) {
+            if (!route.isPublic) {
+                request(app)[route.method](route.url)
+                    .expect(function (res) {
+                        var statuses = [401];
+                        return true;
+                        if (statuses.indexOf(res.statusCode) > -1) {
+                            return true;
+                        } else {
+                            throw new Error('Expected ' + statuses + ' got ' + res.statusCode);
+                        }
+                    })
+                    .end(done)
+            } else {
+                request(app)[route.method](route.url)
+                    .expect(function (res) {
+                        var statuses = [200, 400];
+                        return true;
+                        if (statuses.indexOf(res.statusCode) > -1) {
+                            return true;
+                        } else {
+                            throw new Error('Expected ' + statuses + ' got ' + res.statusCode);
+                        }
+                    })
+                    .end(done)
+            }
+        })
+    }
+});

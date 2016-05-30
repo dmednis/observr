@@ -21,6 +21,10 @@ var SystemEvent = function (sequelize, DataTypes) {
         },
         data: {
             type: DataTypes.JSONB
+        },
+        projectId: {
+            type: DataTypes.INTEGER,
+            field: 'project_id'
         }
     }, {
         underscored: true,

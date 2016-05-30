@@ -1,5 +1,5 @@
-var nodemailer = require('nodemailer'),
-    _ = require('lodash');
+var nodemailer = require('nodemailer');
+var _ = require('lodash');
 
 /**
  *
@@ -26,13 +26,13 @@ function Mailer (app) {
         this.queue.process('email', 20, function (job, done) {
             var mailOptions = {
                 from: {
-                    name: 'DataManage',
-                    address: app.config.smtp.sender || 'mail@datamanage.com'
-                }, // sender address
-                to: job.data.to, // list of receivers
-                subject: job.data.subject, // Subject line
-                text: job.data.body, // plaintext body
-                html: job.data.body // html body
+                    name: 'Observr',
+                    address: app.config.smtp.sender || 'mail@observr.com'
+                },
+                to: job.data.to,
+                subject: job.data.subject,
+                text: job.data.body,
+                html: job.data.body
             };
 
             that.transporter.sendMail(mailOptions, function (error, info) {
@@ -113,9 +113,7 @@ Mailer.prototype.filterOutgoing = function (recipients) {
 
             break;
         case "development":
-            if (filtered.indexOf("soleo_management@assistt.com.tr") > -1) {
-                filtered.splice(filtered.indexOf("soleo_management@assistt.com.tr"), 1);
-            }
+
             break;
         case "test":
             filtered = [];

@@ -1,36 +1,101 @@
+var md5 = require('md5');
 var _ = require('lodash');
 
 /**
  * 
- * @param config
+ * @param app
  * @returns queue
  * @constructor
  */
-function  (config) {
-    this.config = config;
+function Observr (app) {
+    this.app = app;
+    this.db = this.app.db;
+    this.queue = this.app.services.queue;
+    //this.socket = this.app.services.socket;
 
-    var queue;
 
-    try {
-        queue = kue.createQueue({
-            prefix: 'q' + __dirname,
-            redis: {
-                port: config.redis_port || 6379,
-                host: config.redis_host || '127.0.0.1',
-                auth: config.redis_pass || '',
-                db: 1, // if provided select a non-default redis db
-                options: {
-                    // see https://github.com/mranney/node_redis#rediscreateclient
-                }
-            }
-        });
-    } catch (e) {
-        console.error('Cannot connect to redis.');
-    }
+    this.processError = this.processError.bind(this);
+    this.processEvent = this.processEvent.bind(this);
+    this.processLog = this.processLog.bind(this);
 
-    return queue;
+    this.init.call(this);
+
+    return this;
 }
 
+Observr.prototype.init = function () {
+    var that = this;
+    // init error processor
+    this.queue.process('error', 5, function (job, done) {
+        var hash = md5(job.data.message + job.data.stack);
+        return that.db.error.findOrCreate({
+            where: {
+                hash: hash
+            },
+            defaults: {
+                projectId: job.data.project.id
+            }
+        }).spread(function (error) {
+            return error.createErrorEvent({
+                message: job.data.message,
+                stack: job.data.stack,
+                data: job.data.data
+            });
+        }).then(function (errEvent) {
+            done();
+        });
+    });
+
+    // init event processor
+    this.queue.process('event', 5, function (job, done) {
+        that.db.event.create({
+            name: job.data.event,
+            data: job.data.data,
+            projectId: job.data.project.id
+        }).then(function (event) {
+            done();
+        });
+    });
+
+    // init error processor
+    this.queue.process('log', 20, function (job, done) {
+        done();
+    });
+};
+
+Observr.prototype.processError = function (project, message, stack, data) {
+    var job = this.queue.create('error', {
+        message: message,
+        stack: stack || "",
+        data: data || {},
+        project: project
+    }).save( function(err){
+        
+    });
+};
+
+Observr.prototype.processEvent = function (project, event, data) {
+    var job = this.queue.create('event', {
+        event: event,
+        data: data || {},
+        project: project
+    }).save( function(err){
+        
+    });
+};
+
+Observr.prototype.processLog = function (project, time, data) {
+    var job = this.queue.create('log', {
+        time: time,
+        data: data,
+        project: project
+    }).save( function(err){
+        if(!err) {
+            console.log( job.id );
+        }
+    });
+};
 
 
-module.exports = Queue;
+
+module.exports = Observr;

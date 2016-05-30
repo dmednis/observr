@@ -24,6 +24,10 @@ var SystemError = function (sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
+        },
+        projectId: {
+            type: DataTypes.INTEGER,
+            field: 'project_id'
         }
     }, {
         underscored: true,

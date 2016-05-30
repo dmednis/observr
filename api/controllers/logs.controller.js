@@ -15,10 +15,12 @@ LogsController.prototype.list = function (params, done, req) {
     
 };
 
-LogsController.prototype.get = function (params, done) {
+LogsController.prototype.register = function (params, done) {
    
 };
 
+LogsController.prototype.get = function (params, done) {
 
+};
 
 module.exports = LogsController;

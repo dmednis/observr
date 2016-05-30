@@ -1,6 +1,7 @@
-var jwt = require('jsonwebtoken'),
-    Promise = require('bluebird');
-
+var jwt = require('jsonwebtoken');
+var Promise = require('bluebird');
+var cacheManager = require('cache-manager');
+var cache = cacheManager.caching({store: 'memory', max: 100, ttl: 120});
 var jwtVerifyAsync = Promise.promisify(jwt.verify, jwt);
 
 function AuthProvider(_app) {
@@ -24,7 +25,13 @@ AuthProvider.prototype.middleware = function (req, res, next) {
                 if (!decoded || !decoded.id) {
                     throw {reason: 'decode error', code: 401};
                 }
-                return that.app.db.user.findOne({where: {id:decoded.id}, attributes: {exclude:['password']}})
+                var key = 'user_' + decoded.id;
+                return cache.wrap(key, function () {
+                    return that.app.db.user.findOne({
+                        where: {id: decoded.id},
+                        attributes: {exclude: ['password']}
+                    });
+                });
             }).then(function (user) {
                 if (!user || !user.id) {
                     throw {reason: 'decode error', code: 401};
@@ -39,6 +46,45 @@ AuthProvider.prototype.middleware = function (req, res, next) {
                     res.status(500).json(err);
                 }
             });
+    }
+};
+
+AuthProvider.prototype.appMiddleware = function (req, res, next) {
+    var apiId;
+    var apiKey;
+    var that = this;
+    
+    if (req.body.apiKey) {
+        apiKey = req.body.apiKey;
+    }
+
+    if (req.body.identifier) {
+        apiId = req.body.identifier;
+    } else {
+        res.status(400).json({message: 'no identifier'});
+        return;
+    }
+    
+    if (!apiKey) {
+        res.status(401).json({message: 'no token'});
+    } else {
+        var key = 'app_' + apiId;
+        return cache.wrap(key, function () {
+            return that.app.db.project.findOne({
+                where: {
+                    identifier: apiId
+                }
+            })
+        }).then(function (project) {
+            if (project.apiKey == apiKey) {
+                req.project = project;
+                next();
+            } else {
+                res.status(401).json({message: 'invalid api key'});
+            }
+        }).catch(function (err) {
+            res.status(500).json(err);
+        });
     }
 };
 

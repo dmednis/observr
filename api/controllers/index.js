@@ -22,6 +22,7 @@ function Loader(_app) {
             var Controller = require('./' + file);
             var controller = new Controller(app);
             var isPublic;
+            var mw;
             if (controller.exposed == '*') {
                 for (var prop in controller) {
                     if (typeof controller[prop] == 'function') {
@@ -35,12 +36,17 @@ function Loader(_app) {
                         if (controller.public.indexOf(prop) != -1) {
                             isPublic = true;
                         }
+                        mw = [];
+                        if (controller.middleware && controller.middleware[prop]) {
+                            mw = controller.middleware[prop];
+                        }
                         endpoints.push({
                             controller: controller,
                             ctrlName: controller.name,
                             name: prop,
                             handler: controller[prop],
-                            isPublic: isPublic
+                            isPublic: isPublic,
+                            middleware: mw
                         });
                     }
                 }
@@ -57,12 +63,17 @@ function Loader(_app) {
                         if (controller.public.indexOf(controller.exposed[m]) != -1) {
                             isPublic = true;
                         }
+                        mw = [];
+                        if (controller.middleware && controller.middleware[controller.exposed[m]]) {
+                            mw = controller.middleware[controller.exposed[m]];
+                        }
                         endpoints.push({
                             controller: controller,
                             ctrlName: controller.name,
                             name: controller.exposed[m],
                             handler: controller[controller.exposed[m]],
-                            isPublic: isPublic
+                            isPublic: isPublic,
+                            middleware: mw
                         });
                     }
                 }
@@ -71,14 +82,16 @@ function Loader(_app) {
         });
     
     var AuthHandler = require('../middleware/auth.js');
+    AuthHandler = new AuthHandler(app);
     var ErrorHandler = require('../middleware/error.js');
+    ErrorHandler = new ErrorHandler(app);
 
-    var handlers = {
-        auth: new AuthHandler(app),
-        error: new ErrorHandler(app)
+    var middleware = {
+        auth: AuthHandler.middleware.bind(AuthHandler),
+        appAuth: AuthHandler.appMiddleware.bind(AuthHandler)
     };
 
-    router.use(handlers.error.handler.bind(handlers.error));
+    router.use(ErrorHandler.handler.bind(ErrorHandler));
 
     for (var r = 0; r < endpoints.length; r++) {
         var ep = endpoints[r];
@@ -109,11 +122,24 @@ function Loader(_app) {
                 break;
         }
 
-        if (ep.isPublic) {
+        if (ep.middleware.length) {
+            var args = [ep.url];
+            ep.middleware.forEach(function (mw) {
+                if (middleware[mw]) {
+                    args.push(middleware[mw]);
+                } else {
+                    console.error('undefined middleware', mw);
+                }
+            });
+            args.push(requestHandler.bind(this));
+            router[ep.method].apply(router, args);
+        } else if (ep.isPublic) {
             router[ep.method](ep.url, requestHandler.bind(this));
         } else {
-            router[ep.method](ep.url, handlers.auth.middleware.bind(handlers.auth), requestHandler.bind(this));
+            router[ep.method](ep.url, middleware.auth, requestHandler.bind(this));
         }
+
+
     }
 
     app.routes = endpoints;
