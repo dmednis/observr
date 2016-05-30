@@ -32,7 +32,7 @@ var SystemError = function (sequelize, DataTypes) {
     }, {
         underscored: true,
         paranoid: false,
-        tableName: 'error',
+        tableName: 'errors',
         classMethods: {
             associate: function (models) {
                 this.belongsTo(models.project);

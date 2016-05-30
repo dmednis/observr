@@ -30,7 +30,7 @@ var SystemEvent = function (sequelize, DataTypes) {
         underscored: true,
         paranoid: false,
         updatedAt: false,
-        tableName: 'event',
+        tableName: 'events',
         classMethods: {
             associate: function (models) {
                 this.belongsTo(models.project)

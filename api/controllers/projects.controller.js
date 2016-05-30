@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var md5 = require('md5');
 var latinize = require('latinize');
+var sequelize = require('sequelize');
 
 /**
  *
@@ -42,7 +43,34 @@ ProjectsController.prototype.list = function (params, done, req) {
                 attributes: ['id']
             }
         ];
+    } else {
+        query.include = [];
     }
+
+    query.include.push({
+        model: that.db.error,
+        as: 'errors',
+        where: {resolved: false},
+        attributes: [
+
+        ],
+        required: false
+    });
+    // query.include.push({
+    //     model: that.db.error,
+    //     as: 'errors',
+    //     where: {resolved: false},
+    //     attributes: ['id'],
+    //     required: false
+    // });
+    // query.include.push({
+    //     model: that.db.error,
+    //     as: 'errors',
+    //     where: {resolved: false},
+    //     attributes: ['id'],
+    //     required: false
+    // });
+
 
     return this.db.project.findAndCountAll(query)
         .then(function (result) {
