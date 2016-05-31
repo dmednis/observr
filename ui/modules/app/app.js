@@ -9,7 +9,8 @@ var app = angular.module('officer', [
     'RPC',
     'toaster',
     'dm.select2',
-    'ngDialog'
+    'ngDialog',
+    'btford.socket-io'
 ]);
 
 app.run(["$rootScope", "$state", "$stateParams", function ($rootScope, $state, $stateParams) {

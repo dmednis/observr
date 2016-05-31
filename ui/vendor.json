@@ -14,5 +14,6 @@
   "node_modules/angular-ui-bootstrap/template/tabs/tabset.html.js",
   "node_modules/angular-ui-bootstrap/src/paging/paging.js",
   "node_modules/angular-ui-bootstrap/src/pagination/pagination.js",
-  "node_modules/angular-ui-bootstrap/template/pagination/pagination.html.js"
+  "node_modules/angular-ui-bootstrap/template/pagination/pagination.html.js",
+  "node_modules/angular-socket-io/socket.js"
 ]

@@ -73,6 +73,18 @@ function routesConfig($stateProvider, $locationProvider, $urlRouterProvider) {
             controller: 'ProjectFormController',
             controllerAs: 'pf'
         })
+        .state('app.projects.logs', {
+            url: '/{id:int}/logs',
+            templateUrl: templatePath('projects/_logs.html'),
+            controller: 'ProjectLogsController',
+            controllerAs: 'pf'
+        })
+        .state('app.projects.stream', {
+            url: '/{id:int}/stream',
+            templateUrl: templatePath('projects/_stream.html'),
+            controller: 'LogStreamerController',
+            controllerAs: 'pf'
+        })
         .state('app.errors', {
             abstract: true,
             url: "/errors",

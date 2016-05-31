@@ -31,6 +31,8 @@ var Queue = require('./services/queue.js');
 app.services.queue = new Queue(app.config);
 var Mailer = require('./services/mailer.js');
 app.services.mailer = new Mailer(app);
+var Socket = require('./services/socket.js');
+app.services.socket = new Socket(server);
 var Observr = require('./services/observr.js');
 app.services.observr = new Observr(app);
 
