@@ -19,7 +19,50 @@ function ErrorsController(_app) {
 }
 
 ErrorsController.prototype.list = function (params, done, req) {
-    
+    var that = this;
+    var query = this.db.error.makeGenericQuery(params, {
+        include: [
+            {
+                model: this.db.errorEvent,
+                as: 'errorEvents',
+                attributes: ['created_at', 'message'],
+                required: false
+            },
+            {
+                model: this.db.project,
+                as: 'project',
+                attributes: ['name']
+            }
+        ]
+    });
+
+    return req.user.getProjects({raw: true})
+        .then(function (projects) {
+            var allowedProjects = [];
+            projects.forEach(function (project) {
+                allowedProjects.push(project.id);
+            });
+
+            if (params.customFilters) {
+                if (!params.customFilters.pid) {
+                    query.where.projectId = {$in: allowedProjects};
+                } else if (allowedProjects.indexOf(params.pid) >= 0) {
+                    query.where.projectId = params.pid;
+                } else {
+                    query.where.projectId = 0;
+                }
+            }
+
+            return that.db.error.findAndCountAll(query)
+                .then(function (errors) {
+                    for (var e = 0; e < errors.rows.length; e++) {
+                        var error = errors.rows[e].get();
+                        errors.rows[e] = error;
+                        errors.rows[e].errorEvents = [error.errorEvents[0]]
+                    }
+                    done(errors);
+                });
+        });
 };
 
 ErrorsController.prototype.register = function (params, done, req) {
@@ -31,8 +74,60 @@ ErrorsController.prototype.register = function (params, done, req) {
     }
 };
 
-ErrorsController.prototype.get = function (params, done) {
+ErrorsController.prototype.get = function (params, done, req) {
+    var that = this;
+    return req.user.getProjects({raw: true})
+        .then(function (projects) {
+            var allowedProjects = [];
+            projects.forEach(function (project) {
+                allowedProjects.push(project.id);
+            });
 
+            return that.db.error.findOne({
+                where: {id: params.id},
+                include: [
+                    {
+                        model: that.db.errorEvent,
+                        as: 'errorEvents',
+                        required: false
+                    }
+                ]
+            }).then(function (error) {
+                if (allowedProjects.indexOf(error.projectId)) {
+                    done({message: 'access denied'}, 403);
+                    return;
+                }
+                done(error);
+            });
+        });
 };
+
+ErrorsController.prototype.solve = function (params, done, req) {
+    var that = this;
+    req.user.getProjects({raw: true})
+        .then(function (projects) {
+            var allowedProjects = [];
+            projects.forEach(function (project) {
+                allowedProjects.push(project.id);
+            });
+
+            return that.db.error.findOne({
+                where: {id: params.pid}
+            }).then(function (error) {
+                if (allowedProjects.indexOf(error.projectId)) {
+                    done({message: 'access denied'}, 403);
+                    return false;
+                } else {
+                    error.resolved = true;
+                    return error.save();
+                }
+            }).then(function (error) {
+                if (error) {
+                    done(error);
+                }
+            });
+        });
+};
+
 
 module.exports = ErrorsController;

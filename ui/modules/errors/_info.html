@@ -1,0 +1,33 @@
+<div class="box box-widget spinner">
+    <div class="box-header with-border">
+        <div class="user-block">
+            <span><i class="fa fa-bug fa-2x"></i></span>
+            <span class="username" ng-bind="::ei.error.errorEvents[0].message"></span>
+            <span class="description" ng-bind="::ei.error.created_at | format_date"></span>
+        </div>
+        <div class="box-tools">
+            <button ng-click="ei.solve()" type="button" class="btn btn-success" data-toggle="tooltip" title="" data-original-title="Mark as solved">
+                <i class="fa fa-check"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="box-body" style="display: block;">
+        <pre ng-bind="::ei.error.errorEvents[0].stack"></pre>
+    </div>
+
+    <div class="box-footer box-comments" style="display: block;">
+        <div class="box-comment" ng-repeat="row in ::ei.error.errorEvents">
+            <div class="comment-text">
+                  <span class="username" ng-bind="::row.created_at | format_date"></span>
+                <pre ng-bind="::row.data | json"></pre>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="box-footer" style="display: block;">
+
+    </div>
+
+</div>

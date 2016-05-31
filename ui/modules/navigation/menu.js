@@ -11,6 +11,16 @@ app.run(['$rootScope', function ($rootScope) {
             target: "app.projects.list"
         },
         {
+            title: "Errors",
+            icon: "fa fa-bug",
+            target: "app.errors.list"
+        },
+        {
+            title: "Events",
+            icon: "fa fa-flag",
+            target: "app.events.list"
+        },
+        {
             title: "Administration",
             icon: "fa fa-wrench",
             submenu: [

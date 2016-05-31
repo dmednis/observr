@@ -39,9 +39,9 @@
             </div>
             <div class="box-footer no-padding">
                 <ul class="nav nav-stacked">
-                    <li><a href="#"><i class="fa fa-bug"></i> Unsolved errors <span class="pull-right badge bg-red">31</span></a></li>
-                    <li><a href="#"><i class="fa fa-flag"></i> Events (last 24 hours) <span class="pull-right badge bg-aqua">5</span></a></li>
-                    <li><a href="#"><i class="fa fa-table"></i> Log entires (last 24 hours) <span class="pull-right badge bg-aqua">5</span></a></li>
+                    <li><a ui-sref="app.errors.list({pid: project.id})"><i class="fa fa-bug"></i> Unsolved errors <span class="pull-right badge bg-red" ng-bind="::project.errors"></span></a></li>
+                    <li><a href="#"><i class="fa fa-flag"></i> Events (last 24 hours) <span class="pull-right badge bg-aqua" ng-bind="::project.events"></span></a></li>
+                    <li><a href="#"><i class="fa fa-table"></i> Log entires (last 24 hours) <span class="pull-right badge bg-aqua" ng-bind="::project.logs"></span></a></li>
                 </ul>
             </div>
         </div>

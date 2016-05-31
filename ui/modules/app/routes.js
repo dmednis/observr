@@ -72,6 +72,40 @@ function routesConfig($stateProvider, $locationProvider, $urlRouterProvider) {
             templateUrl: templatePath('projects/_form.html'),
             controller: 'ProjectFormController',
             controllerAs: 'pf'
+        })
+        .state('app.errors', {
+            abstract: true,
+            url: "/errors",
+            templateUrl: templatePath('errors/_main.html')
+        })
+        .state('app.errors.list', {
+            url: '?pid',
+            templateUrl: templatePath('errors/_list.html'),
+            controller: 'ErrorListController',
+            controllerAs: 'el'
+        })
+        .state('app.errors.info', {
+            url: '/{id:int}',
+            templateUrl: templatePath('errors/_info.html'),
+            controller: 'ErrorInfoController',
+            controllerAs: 'ei'
+        })
+        .state('app.events', {
+            abstract: true,
+            url: "/events",
+            templateUrl: templatePath('events/_main.html')
+        })
+        .state('app.events.list', {
+            url: '?pid',
+            templateUrl: templatePath('events/_list.html'),
+            controller: 'EventListController',
+            controllerAs: 'evl'
+        })
+        .state('app.events.info', {
+            url: '/{id:int}',
+            templateUrl: templatePath('events/_info.html'),
+            controller: 'EventInfoController',
+            controllerAs: 'evi'
         });
         
     

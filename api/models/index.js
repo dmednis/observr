@@ -10,6 +10,11 @@ var config = require(__dirname + '/../config/config.js');
 var dbConfig = config[env];
 var helpers = require('../services/helpers.js');
 var db = {};
+//Workaround for sequelize error
+var pg = require('pg');
+delete pg.native;
+
+
 
 if (config.use_env_variable) {
     var sequelize = new Sequelize(process.env[dbConfig.use_env_variable]);

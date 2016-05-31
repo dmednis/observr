@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var md5 = require('md5');
 var latinize = require('latinize');
-var sequelize = require('sequelize');
+var Promise = require('bluebird');
 
 /**
  *
@@ -32,7 +32,11 @@ function ProjectsController(_app) {
  */
 ProjectsController.prototype.list = function (params, done, req) {
     var that = this;
-    var query = this.db.project.makeGenericQuery(params, {attributes: {exclude: ['apiKey']}});
+    var query = this.db.project.makeGenericQuery(params, {
+        attributes: {
+            exclude: ['apiKey']
+        }
+    });
 
     if (!(req.user.role == 'admin' && params.admin)) {
         query.include = [
@@ -47,34 +51,48 @@ ProjectsController.prototype.list = function (params, done, req) {
         query.include = [];
     }
 
-    query.include.push({
-        model: that.db.error,
-        as: 'errors',
-        where: {resolved: false},
-        attributes: [
-
-        ],
-        required: false
-    });
-    // query.include.push({
-    //     model: that.db.error,
-    //     as: 'errors',
-    //     where: {resolved: false},
-    //     attributes: ['id'],
-    //     required: false
-    // });
-    // query.include.push({
-    //     model: that.db.error,
-    //     as: 'errors',
-    //     where: {resolved: false},
-    //     attributes: ['id'],
-    //     required: false
-    // });
-
-
+    var projects;
     return this.db.project.findAndCountAll(query)
-        .then(function (result) {
-            done(result);
+        .then(function (_projects) {
+            var promises = [];
+            var ids = [];
+            projects = _projects;
+
+            for (var p = 0; p < projects.rows.length; p++) {
+                var project = projects.rows[p].get();
+                projects.rows[p] = project;
+                ids.push(project.id);
+            }
+
+            promises.push(that.db.sequelize.query(
+                "SELECT project_id, COUNT(*) FROM errors " +
+                "GROUP BY project_id, resolved " +
+                "HAVING resolved != TRUE;",
+                {type: that.db.sequelize.QueryTypes.SELECT})
+            );
+
+            promises.push(that.db.sequelize.query(
+                "SELECT project_id, COUNT(*) FROM events " +
+                "WHERE created_at >= NOW() - '1 day'::INTERVAL " +
+                "GROUP BY project_id;",
+                {type: that.db.sequelize.QueryTypes.SELECT})
+            );
+
+            //TODO: get log count
+            
+            return Promise.all(promises);
+
+        }).then(function (results) {
+            var errorCount = _.keyBy(results[0], 'project_id');
+            var eventCount = _.keyBy(results[1], 'project_id');
+
+            projects.rows.forEach(function (project) {
+                project.errors = errorCount[project.id] ? errorCount[project.id].count : 0;
+                project.events = eventCount[project.id] ? eventCount[project.id].count : 0;
+                project.logs = 0;
+            });
+
+            done(projects);
         });
 };
 
@@ -86,28 +104,38 @@ ProjectsController.prototype.list = function (params, done, req) {
  * @param done
  * @returns Promise
  */
-ProjectsController.prototype.get = function (params, done) {
+ProjectsController.prototype.get = function (params, done, req) {
     var that = this;
-    return this.db.project.findOne({
-        where: {id: params.id},
-        include: [
+    var query = {
+        where: {id: params.id}
+    };
+
+    if (!(req.user.role == 'admin' && params.admin)) {
+        query.include = [
             {
                 model: that.db.user,
                 as: 'members',
+                where: {id: req.user.id},
                 attributes: ['id', 'firstName', 'lastName']
             }
-        ]
-    }).then(function (project) {
-        project = project.get();
-        var members = {};
-        project.members.forEach(function (member) {
-            members[member.id] = {
-                id: member.id,
-                role: member.projectUsers.role,
-                name: member.firstName + ' ' + member.lastName
-            };
-        });
-        project.members = members;
+        ];
+    } else {
+        query.include = [];
+    }
+
+    return this.db.project.findOne(query).then(function (project) {
+        if (project) {
+            project = project.get();
+            var members = {};
+            project.members.forEach(function (member) {
+                members[member.id] = {
+                    id: member.id,
+                    role: member.projectUsers.role,
+                    name: member.firstName + ' ' + member.lastName
+                };
+            });
+            project.members = members;
+        }
         done(project);
     });
 };
@@ -176,7 +204,7 @@ ProjectsController.prototype.update = function (params, done) {
                 project = _project;
                 var userIds = [];
                 _.forOwn(params.members, function (val, key) {
-                   userIds.push(val.id)
+                    userIds.push(val.id)
                 });
                 return that.db.user.findAll({where: {id: {$in: userIds}}});
             }).then(function (users) {

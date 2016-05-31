@@ -1,5 +1,7 @@
 var md5 = require('md5');
 var _ = require('lodash');
+var MongoClient = require('mongodb').MongoClient;
+
 
 /**
  * 
@@ -59,7 +61,20 @@ Observr.prototype.init = function () {
 
     // init error processor
     this.queue.process('log', 20, function (job, done) {
-        done();
+        var url = 'mongodb://localhost:27017/observr';
+        MongoClient.connect(url, function(err, db) {
+            console.log("Connected correctly to server");
+
+            var collection = db.collection('logs_' + job.data.project.id);
+            collection.insertMany([
+                {a : 1}, {a : 2}, {a : 3}
+            ], function(err, result) {
+                console.log("Inserted 3 documents into the document collection");
+                db.close();
+                done();
+            });
+        });
+
     });
 };
 

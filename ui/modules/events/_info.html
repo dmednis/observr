@@ -1,0 +1,21 @@
+<div class="box box-widget spinner">
+    <div class="box-header with-border">
+        <div class="user-block">
+            <span><i class="fa fa-flag fa-2x"></i></span>
+            <span class="username" ng-bind="::evi.event.name"></span>
+            <span class="description" ng-bind="::evi.event.created_at | format_date"></span>
+        </div>
+        <div class="box-tools">
+
+        </div>
+    </div>
+
+    <div class="box-body" style="display: block;">
+        <pre ng-bind="::evi.event.data | json"></pre>
+    </div>
+
+    <div class="box-footer" style="display: block;">
+
+    </div>
+
+</div>

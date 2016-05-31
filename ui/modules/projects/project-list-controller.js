@@ -18,6 +18,7 @@ function ProjectListController($scope, $rootScope, $state, $rpc, $spinner, $toas
         $rpc.projects.list()
             .then(function (res) {
                 pl.projects = res.data.rows;
+                pl.total = res.data.count;
                 $spinner.off('.spinner');
             }, function (err) {
 
