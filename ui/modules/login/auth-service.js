@@ -32,6 +32,9 @@ function AuthService($rootScope, $http, $rpc, $q, $localStorage) {
     };
 
     service.hasAccess = function (state) {
+        if (!state) {
+            return false;
+        }
         if (!state.permissions || !state.permissions.length) {
             return true;
         }

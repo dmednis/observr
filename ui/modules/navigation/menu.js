@@ -27,6 +27,14 @@ app.run(['$rootScope', function ($rootScope) {
                 {
                     title: "Users",
                     target: "app.users.list"
+                },
+                {
+                    title: "System logs",
+                    target: "app.system.logs"
+                },
+                {
+                    title: "E-mails",
+                    target: "app.system.emails"
                 }
             ]
         }

@@ -3,12 +3,15 @@ var _ = require('lodash');
 
 /**
  *
+ * Mailer
+ * 
  * @param app
  * @constructor
  */
 function Mailer (app) {
     this.app = app;
-    this.queue = app.queue;
+    this.db = app.db;
+    this.queue = app.services.queue;
     var that = this;
     var config = _.assign({}, app.config.smtp, {pool: true});
 
@@ -61,13 +64,15 @@ function Mailer (app) {
 
 /**
  *
+ * Sends mail.
+ * 
  * @param to
  * @param subject
  * @param message
  * @param jobTitle
  */
 Mailer.prototype.sendMail = function (to, subject, message, jobTitle) {
-    
+    var that = this;
     var recipients = [];
     if (typeof to === 'object' && Array.isArray(to)) {
         recipients = to;
@@ -78,6 +83,12 @@ Mailer.prototype.sendMail = function (to, subject, message, jobTitle) {
     recipients = this.filterOutgoing(recipients);
 
     for (var r = 0; r < recipients.length; r++) {
+        that.db.email.create({
+            to: recipients[r],
+            status: 'sent',
+            sentAt: new Date(),
+            type: 'error notification'
+        });
         var job = this.queue.create('email', {
             title: jobTitle || "Email notification",
             to: recipients[r],

@@ -1,0 +1,46 @@
+<div class="col-md-12">
+    <div class="box box-primary spinner" ng-controller="GridController as slg" alias="slg" module="system" method="logs">
+        <div class="box-header">
+            <div class="col-md-3">
+                System logs
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-3">
+
+            </div>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive">
+            <table class="table table-striped table-bordered officer-grid">
+                <tr>
+                    <th width="15%">Time</th>
+                    <th width="15%">Log type</th>
+                    <th>Data</th>
+                </tr>
+                <tr ng-repeat="row in slg.rows">
+                    <td ng-bind="::row.created_at | format_date" class="top-pad"></td>
+                    <td ng-bind="::row.event" class="top-pad"></td>
+                    <td ng-bind="::row.data | json" class="top-pad"></td>
+                </tr>
+                <tr ng-show="!slg.rows.length">
+                    <td colspan="4" class="text-center bg-primary">No logs found!</td>
+                </tr>
+            </table>
+            <div class="text-center">
+                <uib-pagination total-items="slg.total" ng-model="slg.page" next-text="Next" previous-text="Previous" items-per-page="slg.per_page" max-size="7" ng-change="slg.loadData()"></uib-pagination>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+
+        </div>
+    </div>
+    <!-- /.box -->
+</div>
+<!-- /.col -->

@@ -3,6 +3,8 @@ var _ = require('lodash');
 
 /**
  * 
+ * Queue(kue) wrapper.
+ * 
  * @param config
  * @returns queue
  * @constructor

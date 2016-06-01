@@ -14,6 +14,7 @@ var Promise = require('bluebird');
 function ProjectsController(_app) {
     this.app = _app;
     this.db = this.app.db;
+    this.logger = this.app.services.logger;
     this.name = 'projects';
     this.exposed = '*';
     this.public = [];
@@ -102,6 +103,7 @@ ProjectsController.prototype.list = function (params, done, req) {
  *
  * @param params
  * @param done
+ * @param req
  * @returns Promise
  */
 ProjectsController.prototype.get = function (params, done, req) {
@@ -146,9 +148,10 @@ ProjectsController.prototype.get = function (params, done, req) {
  *
  * @param params
  * @param done
+ * @param req
  * @returns Promise
  */
-ProjectsController.prototype.new = function (params, done) {
+ProjectsController.prototype.new = function (params, done, req) {
     var that = this;
     var project = params;
     project.apiKey = md5(Date.UTC + project.name);
@@ -174,6 +177,7 @@ ProjectsController.prototype.new = function (params, done) {
                 project = project.get();
                 project.members = params.members;
                 done(project);
+                that.logger.log('project:create', {projectId: project.id, userId: req.user.id});
             })
     });
 };
@@ -184,9 +188,10 @@ ProjectsController.prototype.new = function (params, done) {
  *
  * @param params
  * @param done
+ * @param req
  * @returns Promise
  */
-ProjectsController.prototype.update = function (params, done) {
+ProjectsController.prototype.update = function (params, done, req) {
     var that = this;
     delete params.identifier;
     delete params.apiKey;
@@ -216,6 +221,7 @@ ProjectsController.prototype.update = function (params, done) {
                 project = project.get();
                 project.members = params.members;
                 done(project);
+                that.logger.log('project:update', {projectId: project.id, userId: req.user.id});
             })
     });
 };
@@ -226,12 +232,15 @@ ProjectsController.prototype.update = function (params, done) {
  *
  * @param params
  * @param done
+ * @param req
  * @returns Promise
  */
-ProjectsController.prototype.delete = function (params, done) {
+ProjectsController.prototype.delete = function (params, done, req) {
+    var that = this;
     return this.db.project.destroy({where: {id: params.id}})
         .then(function (project) {
             done(project);
+            that.logger.log('project:delete', {projectId: params.id, userId: req.user.id});
         })
 };
 

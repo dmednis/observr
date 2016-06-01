@@ -6,6 +6,15 @@ var fs = require('fs'),
     _ = require('lodash'),
     winston = require('winston');
 
+
+/**
+ * 
+ * Bootstraps controlllers, middleware and services.
+ * 
+ * @param _app
+ * @returns {Loader}
+ * @constructor
+ */
 function Loader(_app) {
     var app = _app;
     var router = this.router = express.Router();
@@ -158,7 +167,14 @@ function Loader(_app) {
 
     return this;
 
-
+    /**
+     * 
+     * Request wrapper for all endpoints.
+     * 
+     * @param req
+     * @param res
+     * @param next
+     */
     function requestHandler(req, res, next) {
         var that = this;
         var resolved;

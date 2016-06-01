@@ -4,6 +4,15 @@ var cacheManager = require('cache-manager');
 var cache = cacheManager.caching({store: 'memory', max: 100, ttl: 120});
 var jwtVerifyAsync = Promise.promisify(jwt.verify, jwt);
 
+
+/**
+ * 
+ * AuthProvider. Provides middleware for user and application authentification.
+ * 
+ * @param _app
+ * @returns {AuthProvider}
+ * @constructor
+ */
 function AuthProvider(_app) {
     this.app = _app;
     this.secret = this.app.config.secret;
@@ -64,7 +73,7 @@ AuthProvider.prototype.appMiddleware = function (req, res, next) {
         res.status(400).json({message: 'no identifier'});
         return;
     }
-    
+
     if (!apiKey) {
         res.status(401).json({message: 'no token'});
     } else {
@@ -73,15 +82,31 @@ AuthProvider.prototype.appMiddleware = function (req, res, next) {
             return that.app.db.project.findOne({
                 where: {
                     identifier: apiId
-                }
+                },
+                include: [
+                    {
+                        model: that.app.db.user,
+                        as: 'members',
+                        attributes: ['email'],
+                        required: false
+                    }
+                ]
             })
         }).then(function (project) {
             if (project.apiKey == apiKey) {
-                req.project = project;
+                req.project = project.get();
+                var recipients = [];
+                for (var m = 0; m < req.project.members.length; m++) {
+                    var member = req.project.members[m];
+                    recipients.push(member.email);
+                }
+                req.project.members = recipients;
                 next();
             } else {
                 res.status(401).json({message: 'invalid api key'});
             }
+        }, function (err) {
+            console.log(err);
         }).catch(function (err) {
             res.status(500).json(err);
         });

@@ -1,6 +1,14 @@
 var _ = require('lodash');
 var md5 = require('md5');
 
+/**
+ *
+ * EventsController. Responsible for observed event API endpoints.
+ *
+ * @param _app
+ * @returns {EventsController}
+ * @constructor
+ */
 function EventsController(_app) {
     this.app = _app;
     this.db = this.app.db;
@@ -16,6 +24,15 @@ function EventsController(_app) {
     return this;
 }
 
+/**
+ *
+ * Returns a list of registered events.
+ *
+ * @param params
+ * @param done
+ * @param req
+ * @returns {*}
+ */
 EventsController.prototype.list = function (params, done, req) {
     var that = this;
     var query = this.db.error.makeGenericQuery(params, {
@@ -52,6 +69,15 @@ EventsController.prototype.list = function (params, done, req) {
         });
 };
 
+
+/**
+ *
+ * Registers an incoming event.
+ *
+ * @param params
+ * @param done
+ * @param req
+ */
 EventsController.prototype.register = function (params, done, req) {
     if (params.event) {
         done({ok: true});
@@ -61,6 +87,16 @@ EventsController.prototype.register = function (params, done, req) {
     }
 };
 
+
+/**
+ *
+ * Returns a single event instance.
+ *
+ * @param params
+ * @param done
+ * @param req
+ * @returns {*}
+ */
 EventsController.prototype.get = function (params, done, req) {
     var that = this;
     return req.user.getProjects({raw: true})

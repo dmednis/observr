@@ -130,6 +130,20 @@ function routesConfig($stateProvider, $locationProvider, $urlRouterProvider) {
             controller: 'EventInfoController',
             controllerAs: 'evi',
             permissions: []
+        }).state('app.system', {
+            abstract: true,
+            url: "/system",
+            templateUrl: templatePath('system/_main.html')
+        })
+        .state('app.system.emails', {
+            url: '/emails',
+            templateUrl: templatePath('system/_emails.html'),
+            permissions: ['admin']
+        })
+        .state('app.system.logs', {
+            url: '/logs',
+            templateUrl: templatePath('system/_logs.html'),
+            permissions: ['admin']
         });
         
     

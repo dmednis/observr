@@ -1,0 +1,48 @@
+<div class="col-md-12">
+    <div class="box box-primary spinner" ng-controller="GridController as seg" alias="seg" module="system" method="emails">
+        <div class="box-header">
+            <div class="col-md-3">
+                System emails
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-3">
+
+            </div>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive">
+            <table class="table table-striped table-bordered officer-grid">
+                <tr>
+                    <th width="15%">Time</th>
+                    <th width="15%">Email type</th>
+                    <th>Recipient</th>
+                    <th width="10%">Status</th>
+                </tr>
+                <tr ng-repeat="row in seg.rows">
+                    <td ng-bind="::row.sentAt | format_date" class="top-pad"></td>
+                    <td ng-bind="::row.type" class="top-pad"></td>
+                    <td ng-bind="::row.to" class="top-pad"></td>
+                    <td ng-bind="::row.status" class="top-pad"></td>
+                </tr>
+                <tr ng-show="!seg.rows.length">
+                    <td colspan="4" class="text-center bg-primary">No emails found!</td>
+                </tr>
+            </table>
+            <div class="text-center">
+                <uib-pagination total-items="seg.total" ng-model="seg.page" next-text="Next" previous-text="Previous" items-per-page="seg.per_page" max-size="7" ng-change="seg.loadData()"></uib-pagination>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+
+        </div>
+    </div>
+    <!-- /.box -->
+</div>
+<!-- /.col -->

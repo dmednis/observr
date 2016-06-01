@@ -2,6 +2,15 @@ var _ = require('lodash');
 var md5 = require('md5');
 var MongoClient = require('mongodb').MongoClient;
 
+
+/**
+ * 
+ * LogsController. Responsible for observed log endpoints.
+ * 
+ * @param _app
+ * @returns {LogsController}
+ * @constructor
+ */
 function LogsController(_app) {
     this.app = _app;
     this.db = this.app.db;
@@ -17,17 +26,26 @@ function LogsController(_app) {
     return this;
 }
 
+
+/**
+ * 
+ * Returns a list of registered logs.
+ * 
+ * @param params
+ * @param done
+ * @param req
+ */
 LogsController.prototype.list = function (params, done, req) {
     if (params.customFilters.pid) {
         var url = 'mongodb://localhost:27017/observr';
         MongoClient.connect(url, function (err, db) {
             var collection = db.collection('logs_' + params.customFilters.pid);
-            collection.find({}).limit(Number(params.limit)).skip(Number(params.offset)).toArray(function(err, _logs) {
+            collection.find({}).sort({time: -1}).limit(Number(params.limit)).skip(Number(params.offset)).toArray(function(err, _logs) {
                 collection.find({}).count(function(err2, count) {
                     if (err || err2) {
                         console.error(err, err2);
                     }
-                    
+
                     var logs = [];
                     _logs.forEach(function (log) {
                         logs.push({
@@ -46,6 +64,15 @@ LogsController.prototype.list = function (params, done, req) {
     }
 };
 
+
+/**
+ * 
+ * Registers an incoming log.
+ * 
+ * @param params
+ * @param done
+ * @param req
+ */
 LogsController.prototype.register = function (params, done, req) {
     if (params.type) {
         done({ok: true});

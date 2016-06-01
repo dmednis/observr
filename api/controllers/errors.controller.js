@@ -1,6 +1,15 @@
 var _ = require('lodash');
 var md5 = require('md5');
 
+
+/**
+ * 
+ * ErrorsController. Responsible for ebserved error endpoints. 
+ *
+ * @param _app
+ * @returns {ErrorsController}
+ * @constructor
+ */
 function ErrorsController(_app) {
     this.app = _app;
     this.db = this.app.db;
@@ -13,11 +22,19 @@ function ErrorsController(_app) {
         register: ['appAuth']
     };
     
-    
-    
     return this;
 }
 
+
+/**
+ * 
+ * Returns a list of registered errors.
+ * 
+ * @param params
+ * @param done
+ * @param req
+ * @returns {*}
+ */
 ErrorsController.prototype.list = function (params, done, req) {
     var that = this;
     var query = this.db.error.makeGenericQuery(params, {
@@ -64,6 +81,15 @@ ErrorsController.prototype.list = function (params, done, req) {
         });
 };
 
+
+/**
+ * 
+ * Registers an incoming error.
+ * 
+ * @param params
+ * @param done
+ * @param req
+ */
 ErrorsController.prototype.register = function (params, done, req) {
     if (params.message) {
         done({ok: true});
@@ -73,6 +99,16 @@ ErrorsController.prototype.register = function (params, done, req) {
     }
 };
 
+
+/**
+ * 
+ * Returns a single error instance.
+ * 
+ * @param params
+ * @param done
+ * @param req
+ * @returns {*}
+ */
 ErrorsController.prototype.get = function (params, done, req) {
     var that = this;
     return req.user.getProjects({raw: true})
@@ -101,6 +137,15 @@ ErrorsController.prototype.get = function (params, done, req) {
         });
 };
 
+
+/**
+ * 
+ * Marks an error as solved.
+ * 
+ * @param params
+ * @param done
+ * @param req
+ */
 ErrorsController.prototype.solve = function (params, done, req) {
     var that = this;
     req.user.getProjects({raw: true})

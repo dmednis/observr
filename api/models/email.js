@@ -29,8 +29,9 @@ var Email = function (sequelize, DataTypes) {
         data: {
             type: DataTypes.JSONB
         },
-        sent_at: {
-            type: DataTypes.DATE
+        sentAt: {
+            type: DataTypes.DATE,
+            field: 'sent_at'
         }
     }, {
         underscored: true,

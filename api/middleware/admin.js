@@ -1,6 +1,13 @@
 var Promise = require('bluebird');
 
-
+/**
+ * 
+ * AdminProvider. Provides middleware for checking admin permissions.
+ * 
+ * @param _app
+ * @returns {AdminProvider}
+ * @constructor
+ */
 function AdminProvider(_app) {
     this.app = _app;
     this.secret = this.app.config.secret;

@@ -1,6 +1,14 @@
 var Promise = require('bluebird');
 
-
+/**
+ * 
+ * Serves endpoints for web client.
+ * 
+ * @param _app
+ * @param router
+ * @returns {RPCProvider}
+ * @constructor
+ */
 function RPCProvider(_app, router) {
     this.app = _app;
     var that = this;

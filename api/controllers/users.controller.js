@@ -1,8 +1,17 @@
 var bcrypt = require('bcrypt');
 
+/**
+ *
+ * UsersController. Responsilbe for user REST API endpoints.
+ *
+ * @param _app
+ * @returns {UsersController}
+ * @constructor
+ */
 function UsersController(_app) {
     this.app = _app;
     this.db = this.app.db;
+    this.logger = this.app.services.logger;
     this.name = 'users';
     this.exposed = '*';
     this.public = [];
@@ -18,6 +27,14 @@ function UsersController(_app) {
     return this;
 }
 
+/**
+ *
+ * Returns a list of users.
+ *
+ * @param params
+ * @param done
+ * @returns {*}
+ */
 UsersController.prototype.list = function (params, done) {
     var query = this.db.user.makeGenericQuery(params, {attributes: {exclude: ['password']}});
     
@@ -27,6 +44,15 @@ UsersController.prototype.list = function (params, done) {
         });
 };
 
+
+/**
+ *
+ * Returns a single user instance.
+ *
+ * @param params
+ * @param done
+ * @returns {*}
+ */
 UsersController.prototype.get = function (params, done) {
     var that = this;
     return this.db.user.findOne({
@@ -39,7 +65,18 @@ UsersController.prototype.get = function (params, done) {
     });
 };
 
-UsersController.prototype.new = function (params, done) {
+
+/**
+ *
+ * Creates new user.
+ *
+ * @param params
+ * @param done
+ * @param req
+ * @returns {*}
+ */
+UsersController.prototype.new = function (params, done, req) {
+    var that = this;
     if (params.password) {
         params.password = bcrypt.hashSync(params.password, 10);
     }
@@ -48,10 +85,21 @@ UsersController.prototype.new = function (params, done) {
             user = user.get();
             delete user.password;
             done(user);
+            that.logger.log('user:create', {projectId: user.id, userId: req.user.id});
         })
 };
 
-UsersController.prototype.update = function (params, done) {
+
+/**
+ *
+ * Updates user data.
+ *
+ * @param params
+ * @param done
+ * @param req
+ * @returns {*}
+ */
+UsersController.prototype.update = function (params, done, req) {
     var that = this;
     var user;
     if (params.password) {
@@ -68,14 +116,26 @@ UsersController.prototype.update = function (params, done) {
                 return user.save({transaction: t})
             }).then(function (_user) {
                 done(_user);
+                that.logger.log('user:update', {projectId: _user.id, userId: req.user.id});
             })
     });
 };
 
-UsersController.prototype.delete = function (params, done) {
+/**
+ *
+ * Sets user as deleted.
+ *
+ * @param params
+ * @param done
+ * @param req
+ * @returns {*}
+ */
+UsersController.prototype.delete = function (params, done, req) {
+    var that = this;
     return this.db.user.destroy({where: {id: params.id}})
         .then(function (user) {
             done(user);
+            that.logger.log('user:delete', {projectId: params.id, userId: req.user.id});
         })
 };
 

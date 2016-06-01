@@ -5,8 +5,10 @@ var MongoClient = require('mongodb').MongoClient;
 
 /**
  * 
+ * Handles all incoming application data.
+ * 
  * @param app
- * @returns queue
+ * @returns Observr
  * @constructor
  */
 function Observr (app) {
@@ -14,6 +16,7 @@ function Observr (app) {
     this.db = this.app.db;
     this.queue = this.app.services.queue;
     this.socket = this.app.services.socket;
+    this.notifier = this.app.services.notifier;
 
 
     this.processError = this.processError.bind(this);
@@ -37,7 +40,15 @@ Observr.prototype.init = function () {
             defaults: {
                 projectId: job.data.project.id
             }
-        }).spread(function (error) {
+        }).spread(function (error, created) {
+            console.log(created);
+            if (created) {
+                that.notifier.notifyError({project: job.data.project, error: {
+                    message: job.data.message,
+                    stack: job.data.stack,
+                    data: job.data.data
+                }}, {recipients: job.data.project.members});
+            }
             return error.createErrorEvent({
                 message: job.data.message,
                 stack: job.data.stack,
@@ -95,7 +106,7 @@ Observr.prototype.processError = function (project, message, stack, data) {
         data: data || {},
         project: project
     }).save( function(err){
-        
+       
     });
 };
 

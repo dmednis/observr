@@ -2,7 +2,14 @@ var jwt = require('jsonwebtoken'),
     _ = require('lodash'),
     bcrypt = require('bcrypt');
 
-
+/**
+ * 
+ * AuthController. Responsible for user authentification.
+ * 
+ * @param _app
+ * @returns {AuthController}
+ * @constructor
+ */
 function AuthController(_app) {
     this.app = _app;
     this.db = this.app.db;
