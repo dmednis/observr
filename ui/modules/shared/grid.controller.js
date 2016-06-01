@@ -223,7 +223,7 @@ function GridController($scope, $rootScope, $filter, $attrs, $rpc, $localStorage
                 grid.error = true;
                 grid.loaded = true;
                 SpinnerService.off('.spinner');
-                toaster.pop("error", $filter('translate')('labels.server-error'));
+                toaster.pop("error", "Server error");
             });
 
 

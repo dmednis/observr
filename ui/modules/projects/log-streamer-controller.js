@@ -7,16 +7,23 @@ function LogStreamerController($socket, $scope, $rootScope, $state, $stateParams
 
     ls.authUser = $rootScope.user;
     ls.state = $state.current.name;
-    
+    ls.logs = [];
+
     function init() {
         if ($stateParams.id) {
-
+            ls.pid = $stateParams.id;
         }
     }
 
 
-    $socket.on('test', function () {
-        console.log("ya");
+    $socket.on('log', function (e) {
+        if (e.pid = ls.pid) {
+            console.log(e);
+            if (ls.logs.length > 15) {
+                ls.logs.shift();
+            }
+            ls.logs.push(e.log);
+        }
     });
     
     init();

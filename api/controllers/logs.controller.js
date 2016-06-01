@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var md5 = require('md5');
+var MongoClient = require('mongodb').MongoClient;
 
 function LogsController(_app) {
     this.app = _app;
@@ -17,7 +18,32 @@ function LogsController(_app) {
 }
 
 LogsController.prototype.list = function (params, done, req) {
-    
+    if (params.customFilters.pid) {
+        var url = 'mongodb://localhost:27017/observr';
+        MongoClient.connect(url, function (err, db) {
+            var collection = db.collection('logs_' + params.customFilters.pid);
+            collection.find({}).limit(Number(params.limit)).skip(Number(params.offset)).toArray(function(err, _logs) {
+                collection.find({}).count(function(err2, count) {
+                    if (err || err2) {
+                        console.error(err, err2);
+                    }
+                    
+                    var logs = [];
+                    _logs.forEach(function (log) {
+                        logs.push({
+                            time: log.time || new Date(),
+                            type: log.type || 'log',
+                            data: log.data || {}
+                        });
+                    });
+                    done({rows: logs, count: count});
+                    db.close();
+                });
+            });
+        });
+    } else {
+        done({rows: [], count: 0}, 200)
+    }
 };
 
 LogsController.prototype.register = function (params, done, req) {

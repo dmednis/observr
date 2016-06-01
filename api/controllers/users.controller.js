@@ -7,6 +7,14 @@ function UsersController(_app) {
     this.exposed = '*';
     this.public = [];
 
+    this.middleware = {
+        list: ['auth', 'admin'],
+        get: ['auth', 'admin'],
+        update: ['auth', 'admin'],
+        new: ['auth', 'admin'],
+        delete: ['auth', 'admin']
+    };
+
     return this;
 }
 

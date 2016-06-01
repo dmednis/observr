@@ -14,14 +14,14 @@ function AuthController(_app) {
     return this;
 }
 
-AuthController.prototype.login = function (params, done) {
+AuthController.prototype.login = function (params, done, req) {
     var that = this;
     return this.db.user.findOne({
         where: {
             username: params.username,
             status: true
         },
-        attributes: ['id', 'username', 'password', 'email', 'emailHash', 'firstName', 'lastName']
+        attributes: ['id', 'username', 'password', 'email', 'emailHash', 'firstName', 'lastName', 'role']
     }).then(function (user) {
         if (!user) {
             done({message: 'invalid auth'}, 401);
@@ -33,7 +33,10 @@ AuthController.prototype.login = function (params, done) {
                     id: _user.id
                 };
                 var token = jwt.sign(tokeninfo, that.secret);
-                done({user: _user, token: token})
+                user.lastLogin = new Date();
+                user.lastLoginIP = req.ip;
+                done({user: _user, token: token});
+                user.save();
             } else {
                 done({message: 'invalid auth'}, 401);
             }

@@ -38,8 +38,8 @@ EventsController.prototype.list = function (params, done, req) {
             if (params.customFilters) {
                 if (!params.customFilters.pid) {
                     query.where.projectId = {$in: allowedProjects};
-                } else if (allowedProjects.indexOf(params.pid) >= 0) {
-                    query.where.projectId = params.pid;
+                } else if (allowedProjects.indexOf(Number(params.customFilters.pid)) >= 0) {
+                    query.where.projectId = params.customFilters.pid;
                 } else {
                     query.where.projectId = 0;
                 }

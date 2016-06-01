@@ -8,7 +8,7 @@ app.config(['$localStorageProvider', function ($localStorageProvider) {
     $localStorageProvider.setKeyPrefix('officer');
 }]);
 
-app.run(['$rpc', '$rootScope', '$state', 'AuthService', '$localStorage', function ($rpc, $rootScope, $state, Auth, $localStorage) {
+app.run(['$rpc', '$rootScope', '$state', 'AuthService', '$localStorage', 'toaster', function ($rpc, $rootScope, $state, Auth, $localStorage, toaster) {
     var auth_progress = false;
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         if (auth_progress == false && !$rootScope.user.id && toState.name != "login") {
@@ -17,6 +17,7 @@ app.run(['$rpc', '$rootScope', '$state', 'AuthService', '$localStorage', functio
             Auth.getUser().then(function (res) {
                     if (res.data.user) {
                         $rootScope.user = res.data.user;
+                        Auth.user = res.data.user;
                         auth_progress = false;
                         $state.go(toState.name, toParams);
                     }
@@ -34,9 +35,10 @@ app.run(['$rpc', '$rootScope', '$state', 'AuthService', '$localStorage', functio
             event.preventDefault();
             $state.go('app.dashboard');
         } else {
-            if (!Auth.checkPerms(toState)) {
+            if (!Auth.hasAccess(toState)) {
                 event.preventDefault();
-                $state.go('404');
+                toaster.pop('error', 'Access denied');
+                $state.go('app.dashboard');
             }
         }
     });

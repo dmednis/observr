@@ -36,19 +36,22 @@ function routesConfig($stateProvider, $locationProvider, $urlRouterProvider) {
         })
         .state('app.users.list', {
             url: '',
-            templateUrl: templatePath('users/_list.html')
+            templateUrl: templatePath('users/_list.html'),
+            permissions: ['admin']
         })
         .state('app.users.edit', {
             url: '/{id:int}',
             templateUrl: templatePath('users/_form.html'),
             controller: 'UserFormController',
-            controllerAs: 'uf'
+            controllerAs: 'uf',
+            permissions: ['admin']
         })
         .state('app.users.new', {
             url: '/new',
             templateUrl: templatePath('users/_form.html'),
             controller: 'UserFormController',
-            controllerAs: 'uf'
+            controllerAs: 'uf',
+            permissions: ['admin']
         })
         .state('app.projects', {
             abstract: true,
@@ -59,31 +62,36 @@ function routesConfig($stateProvider, $locationProvider, $urlRouterProvider) {
             url: '',
             templateUrl: templatePath('projects/_list.html'),
             controller: 'ProjectListController',
-            controllerAs: 'pl'
+            controllerAs: 'pl',
+            permissions: []
         })
         .state('app.projects.edit', {
             url: '/{id:int}',
             templateUrl: templatePath('projects/_form.html'),
             controller: 'ProjectFormController',
-            controllerAs: 'pf'
+            controllerAs: 'pf',
+            permissions: []
         })
         .state('app.projects.new', {
             url: '/new',
             templateUrl: templatePath('projects/_form.html'),
             controller: 'ProjectFormController',
-            controllerAs: 'pf'
+            controllerAs: 'pf',
+            permissions: ['admin', 'poweruser']
         })
         .state('app.projects.logs', {
             url: '/{id:int}/logs',
             templateUrl: templatePath('projects/_logs.html'),
             controller: 'ProjectLogsController',
-            controllerAs: 'pf'
+            controllerAs: 'pl',
+            permissions: []
         })
         .state('app.projects.stream', {
             url: '/{id:int}/stream',
             templateUrl: templatePath('projects/_stream.html'),
             controller: 'LogStreamerController',
-            controllerAs: 'pf'
+            controllerAs: 'ps',
+            permissions: []
         })
         .state('app.errors', {
             abstract: true,
@@ -94,13 +102,15 @@ function routesConfig($stateProvider, $locationProvider, $urlRouterProvider) {
             url: '?pid',
             templateUrl: templatePath('errors/_list.html'),
             controller: 'ErrorListController',
-            controllerAs: 'el'
+            controllerAs: 'el',
+            permissions: []
         })
         .state('app.errors.info', {
             url: '/{id:int}',
             templateUrl: templatePath('errors/_info.html'),
             controller: 'ErrorInfoController',
-            controllerAs: 'ei'
+            controllerAs: 'ei',
+            permissions: []
         })
         .state('app.events', {
             abstract: true,
@@ -111,13 +121,15 @@ function routesConfig($stateProvider, $locationProvider, $urlRouterProvider) {
             url: '?pid',
             templateUrl: templatePath('events/_list.html'),
             controller: 'EventListController',
-            controllerAs: 'evl'
+            controllerAs: 'evl',
+            permissions: []
         })
         .state('app.events.info', {
             url: '/{id:int}',
             templateUrl: templatePath('events/_info.html'),
             controller: 'EventInfoController',
-            controllerAs: 'evi'
+            controllerAs: 'evi',
+            permissions: []
         });
         
     

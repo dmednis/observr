@@ -34,9 +34,9 @@ var source = {
         //    "./img/**/*.png"
         ],
         fonts: [
-           "./node_modules/font-awesome/fonts/*",
-           "./node_modules/bootstrap/fonts/*",
-        //    "./bower_components/fontface-source-sans-pro/fonts/**/*"
+            "./node_modules/font-awesome/fonts/*",
+            "./node_modules/bootstrap/fonts/*",
+            "./node_modules/npm-font-source-sans-pro/fonts/**/*"
         ],
         select2: [
         //    "./bower_components/select2/select2.png",

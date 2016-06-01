@@ -1,6 +1,6 @@
-app.controller('SidebarController', ['$rootScope', '$scope', '$state', SidebarController]);
+app.controller('SidebarController', ['$rootScope', '$scope', '$state', 'AuthService', SidebarController]);
 
-function SidebarController($rootScope, $scope, $state) {
+function SidebarController($rootScope, $scope, $state, AuthService) {
     "use strict";
     var sb = this;
     
@@ -27,8 +27,12 @@ function SidebarController($rootScope, $scope, $state) {
                 mParsed.submenu = [];
                 for (var sm = 0; sm < mItem.submenu.length; sm++) {
                     var smItem = mItem.submenu[sm];
+                    var state = statesObj[smItem.target];
+
                     smItem.id = sm;
-                    mParsed.submenu.push(smItem);
+                    if (AuthService.hasAccess(state)) {
+                        mParsed.submenu.push(smItem);
+                    }
                 }
                 if (mParsed.submenu.length) {
                     mParsed.title = mItem.title;
@@ -38,13 +42,17 @@ function SidebarController($rootScope, $scope, $state) {
                 }
             } else {
                 if (mItem.target) {
-                    menu.push(mItem);
+                    var state = statesObj[mItem.target];
+                    if (AuthService.hasAccess(state)) {
+                        menu.push(mItem);
+                    }
                 }
             }
         }
 
         sb.menu = menu;
     }
+
 
     init();
 }

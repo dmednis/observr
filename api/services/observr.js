@@ -13,7 +13,7 @@ function Observr (app) {
     this.app = app;
     this.db = this.app.db;
     this.queue = this.app.services.queue;
-    //this.socket = this.app.services.socket;
+    this.socket = this.app.services.socket;
 
 
     this.processError = this.processError.bind(this);
@@ -63,13 +63,23 @@ Observr.prototype.init = function () {
     this.queue.process('log', 20, function (job, done) {
         var url = 'mongodb://localhost:27017/observr';
         MongoClient.connect(url, function(err, db) {
-            console.log("Connected correctly to server");
 
             var collection = db.collection('logs_' + job.data.project.id);
             collection.insertMany([
-                {a : 1}, {a : 2}, {a : 3}
+                {
+                    time: job.data.time,
+                    type: job.data.type,
+                    data: job.data.data
+                }
             ], function(err, result) {
-                console.log("Inserted 3 documents into the document collection");
+                that.socket.emit('log', {
+                    pid: job.data.project.id,
+                    log: {
+                        time: job.data.time,
+                        type: job.data.type,
+                        data: job.data.data
+                    }
+                });
                 db.close();
                 done();
             });
@@ -99,10 +109,11 @@ Observr.prototype.processEvent = function (project, event, data) {
     });
 };
 
-Observr.prototype.processLog = function (project, time, data) {
+Observr.prototype.processLog = function (project, type, time, data) {
     var job = this.queue.create('log', {
-        time: time,
-        data: data,
+        time: time || new Date(),
+        type: type,
+        data: data || {},
         project: project
     }).save( function(err){
         if(!err) {

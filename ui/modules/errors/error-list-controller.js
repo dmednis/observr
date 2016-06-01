@@ -25,7 +25,7 @@ function ErrorListController($scope, $rootScope, $state, $stateParams, $timeout,
                     $state.go('app.errors.list', {pid: null});
                 } else {
                     el.project = project;
-                    console.log(pid);
+                    
                     $timeout(function () {
                         $scope.$broadcast('set_static_filters', {alias: 'eg', customFilters: {pid: pid}})
                     })

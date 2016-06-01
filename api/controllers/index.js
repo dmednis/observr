@@ -85,10 +85,13 @@ function Loader(_app) {
     AuthHandler = new AuthHandler(app);
     var ErrorHandler = require('../middleware/error.js');
     ErrorHandler = new ErrorHandler(app);
+    var AdminHandler = require('../middleware/admin.js');
+    AdminHandler = new AdminHandler(app);
 
     var middleware = {
         auth: AuthHandler.middleware.bind(AuthHandler),
-        appAuth: AuthHandler.appMiddleware.bind(AuthHandler)
+        appAuth: AuthHandler.appMiddleware.bind(AuthHandler),
+        admin: AdminHandler.middleware.bind(AdminHandler)
     };
 
     router.use(ErrorHandler.handler.bind(ErrorHandler));
@@ -189,6 +192,7 @@ function Loader(_app) {
         });
 
         var params = _.merge(query, req.body, req.params);
+
         var returned = resolved.handler.call(resolved.controller, params, function (result, code) {
             if (typeof code == 'undefined') {
                 code = 200;
