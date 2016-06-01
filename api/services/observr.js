@@ -41,13 +41,27 @@ Observr.prototype.init = function () {
                 projectId: job.data.project.id
             }
         }).spread(function (error, created) {
-            console.log(created);
             if (created) {
-                that.notifier.notifyError({project: job.data.project, error: {
-                    message: job.data.message,
-                    stack: job.data.stack,
-                    data: job.data.data
-                }}, {recipients: job.data.project.members});
+                that.db.user.findAll({
+                    include: [{
+                        model: that.db.project,
+                        as: 'projects',
+                        where: {id: job.data.project.id},
+                        attributes: ['id']
+                    }]
+                }).then(function (users) {
+                    var mails = [];
+                    users.forEach(function (user) {
+                        mails.push(user.email);
+                    });
+                    that.notifier.notifyError({
+                        project: job.data.project, error: {
+                            message: job.data.message,
+                            stack: job.data.stack,
+                            data: job.data.data
+                        }
+                    }, {recipients: mails});
+                });
             }
             return error.createErrorEvent({
                 message: job.data.message,
@@ -74,7 +88,6 @@ Observr.prototype.init = function () {
     this.queue.process('log', 20, function (job, done) {
         var url = 'mongodb://localhost:27017/observr';
         MongoClient.connect(url, function(err, db) {
-
             var collection = db.collection('logs_' + job.data.project.id);
             collection.insertMany([
                 {

@@ -218,7 +218,7 @@ function Loader(_app) {
 
         if (returned) {
             returned.catch(function (err) {
-                next(err);
+                res.status(500).json({message: 'system error'});
                 console.log(err.stack);
             });
         }

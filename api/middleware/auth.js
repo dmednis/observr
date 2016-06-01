@@ -82,31 +82,17 @@ AuthProvider.prototype.appMiddleware = function (req, res, next) {
             return that.app.db.project.findOne({
                 where: {
                     identifier: apiId
-                },
-                include: [
-                    {
-                        model: that.app.db.user,
-                        as: 'members',
-                        attributes: ['email'],
-                        required: false
-                    }
-                ]
+                }
             })
         }).then(function (project) {
             if (project.apiKey == apiKey) {
                 req.project = project.get();
-                var recipients = [];
-                for (var m = 0; m < req.project.members.length; m++) {
-                    var member = req.project.members[m];
-                    recipients.push(member.email);
-                }
-                req.project.members = recipients;
                 next();
             } else {
                 res.status(401).json({message: 'invalid api key'});
             }
         }, function (err) {
-            console.log(err);
+            console.log("e", err);
         }).catch(function (err) {
             res.status(500).json(err);
         });
