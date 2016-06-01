@@ -45,8 +45,8 @@ service nginx restart
 
 #postgres
 #psql --username=postgres << EOF
-#CREATE ROLE officer WITH SUPERUSER CREATEDB LOGIN PASSWORD 'qwerty1234';
-#CREATE DATABASE officer_db OWNER officer ENCODING 'UTF8';
+#CREATE ROLE observr WITH SUPERUSER CREATEDB LOGIN PASSWORD 'qwerty1234';
+#CREATE DATABASE observr_db OWNER observr ENCODING 'UTF8';
 #EOF
 
 #node
