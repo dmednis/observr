@@ -23,5 +23,23 @@ module.exports = {
     },
 //APP CONFIG
     debug: false,
-    port: 4100
+    port: 4100,
+    secret: '',
+    // smtp : {
+    //     host: 'smtp.sparkpostmail.com',
+    //     port: 587 ,
+    //     auth: {
+    //         user: '',
+    //         pass: ''
+    //     },
+    //     sender: 'mail@sparkpostbox.com'
+    // },
+    // test_email: '',
+    // ldap: {
+    //     url: '',
+    //     baseDN: '',
+    //     username: '',
+    //     password: '',
+    //     domain: ''
+    // }
 };

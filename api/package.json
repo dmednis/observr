@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/dmednis/observr",
   "dependencies": {
+    "activedirectory": "^0.7.2",
     "bcrypt": "^0.8.6",
     "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",

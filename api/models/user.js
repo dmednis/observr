@@ -68,6 +68,13 @@ var User = function (sequelize, DataTypes) {
         lastLoginIP: {
             type: DataTypes.STRING(45),
             field: 'last_login_ip'
+        },
+        ldap: {
+            type: DataTypes.BOOLEAN
+        },
+        ldapInfo: {
+            type: DataTypes.STRING,
+            field: 'ldap_info'
         }
     }, {
         underscored: true,
