@@ -31,50 +31,6 @@ AuthController.prototype.login = function (params, done, req) {
     }
 };
 
-AuthController.prototype.ldap = function (params, done, req) {
-    var ldapConfig = this.config.ldap;
-    var ad = new ActiveDirectory(ldapConfig);
-    var name = params.username;
-    ad.findUser(name, function(err, user) {
-        if (err) {
-            console.log('ERROR: ' + err);
-            return;
-        }
-        if (! user) {
-            console.log('User: ' + name + ' not found.');
-            done()
-        } else {
-            console.log(user);
-            done(user)
-        }
-    });
-    ad.authenticate(name + '@cs.local', 'I7datum$', function(err, auth) {
-        if (err) {
-            console.log('ERROR: ' + err);
-            done();
-            return;
-        }
-        if (auth) {
-            console.log("AUHENTIFICATED");
-            ad.findUser(name, function(err, user) {
-                if (err) {
-                    console.log('ERROR: ' + err);
-                    return;
-                }
-                if (! user) {
-                    console.log('User: ' + name + ' not found.');
-                    done()
-                } else {
-                    console.log(user);
-                    done(user)
-                }
-            });
-        } else {
-            console.log('Authentication failed!');
-            done();
-        }
-    });
-};
 
 AuthController.prototype._dbLogin = function (params, done, req) {
     var that = this;
