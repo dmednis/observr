@@ -230,7 +230,14 @@ module.exports = {
                 }
             }
             console.log(444);
-            query = _.merge(query, overwrites);
+            console.log('query', query);
+            console.log('overwrites', overwrites);
+            try {
+                query = _.merge(query, overwrites);
+            } catch (e) {
+                console.log(e);
+            }
+
             console.log(44);
             return query;
         }
