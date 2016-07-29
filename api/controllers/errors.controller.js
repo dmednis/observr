@@ -37,6 +37,7 @@ function ErrorsController(_app) {
  */
 ErrorsController.prototype.list = function (params, done, req) {
     console.log('hit controller');
+    try {
     var that = this;
     var query = this.db.error.makeGenericQuery(params, {
         include: [
@@ -53,7 +54,7 @@ ErrorsController.prototype.list = function (params, done, req) {
             }
         ]
     });
-    try {
+
         console.log('1');
         return req.user.getProjects({raw: true})
             .then(function (projects) {
