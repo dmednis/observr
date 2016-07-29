@@ -53,33 +53,40 @@ ErrorsController.prototype.list = function (params, done, req) {
             }
         ]
     });
-
-    return req.user.getProjects({raw: true})
-        .then(function (projects) {
-            var allowedProjects = [];
-            projects.forEach(function (project) {
-                allowedProjects.push(project.id);
-            });
-
-            if (params.customFilters) {
-                if (!params.customFilters.pid) {
-                    query.where.projectId = {$in: allowedProjects};
-                } else if (allowedProjects.indexOf(Number(params.customFilters.pid)) >= 0) {
-                    query.where.projectId = params.customFilters.pid;
-                } else {
-                    query.where.projectId = 0;
-                }
-            }
-            return that.db.error.findAndCountAll(query)
-                .then(function (errors) {
-                    for (var e = 0; e < errors.rows.length; e++) {
-                        var error = errors.rows[e].get();
-                        errors.rows[e] = error;
-                        errors.rows[e].errorEvents = [error.errorEvents[0]]
-                    }
-                    done(errors);
+    try {
+        console.log('1');
+        return req.user.getProjects({raw: true})
+            .then(function (projects) {
+                var allowedProjects = [];
+                projects.forEach(function (project) {
+                    allowedProjects.push(project.id);
                 });
-        });
+
+                if (params.customFilters) {
+                    if (!params.customFilters.pid) {
+                        query.where.projectId = {$in: allowedProjects};
+                    } else if (allowedProjects.indexOf(Number(params.customFilters.pid)) >= 0) {
+                        query.where.projectId = params.customFilters.pid;
+                    } else {
+                        query.where.projectId = 0;
+                    }
+                }
+                console.log('2');
+                return that.db.error.findAndCountAll(query)
+                    .then(function (errors) {
+                        console.log('3');
+                        for (var e = 0; e < errors.rows.length; e++) {
+                            var error = errors.rows[e].get();
+                            errors.rows[e] = error;
+                            errors.rows[e].errorEvents = [error.errorEvents[0]]
+                        }
+                        done(errors);
+                    });
+            });
+    } catch (err) {
+        done(err);
+        console.log(err);
+    }
 };
 
 
