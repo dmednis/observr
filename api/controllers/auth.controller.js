@@ -4,9 +4,9 @@ var bcrypt = require('bcrypt');
 var ActiveDirectory = require('activedirectory');
 
 /**
- * 
+ *
  * AuthController. Responsible for user authentification.
- * 
+ *
  * @param _app
  * @returns {AuthController}
  * @constructor
@@ -19,7 +19,7 @@ function AuthController(_app) {
     this.public = ['login', 'ldap'];
     this.secret = this.app.config.secret;
     this.config = this.app.config;
-    
+
     return this;
 }
 
@@ -74,13 +74,13 @@ AuthController.prototype._ldapLogin = function (params, done, req) {
         attributes: ['id', 'username', 'password', 'email', 'emailHash', 'firstName', 'lastName', 'role', 'ldap']
     }).then(function (user) {
         if (!user || user.ldap) {
-            ad.authenticate(params.username + '@' + ldapConfig.domain, params.password, function(err, auth) {
+            ad.authenticate(params.username + '@' + ldapConfig.domain, params.password, function (err, auth) {
                 if (err) {
                     done({message: 'server error', error: err}, 500);
                     return;
                 }
                 if (auth) {
-                    ad.findUser(params.username, function(err, adUser) {
+                    ad.findUser(params.username, function (err, adUser) {
                         if (err) {
                             done({message: 'server error', error: err}, 500);
                             return;

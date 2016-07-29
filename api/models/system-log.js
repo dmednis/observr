@@ -27,9 +27,7 @@ var SystemLog = function (sequelize, DataTypes) {
         underscored: true,
         tableName: 'system_logs',
         updatedAt: false,
-        classMethods: {
-
-        }
+        classMethods: {}
     });
 };
 

@@ -8,9 +8,9 @@ var fs = require('fs'),
 
 
 /**
- * 
+ *
  * Bootstraps controlllers, middleware and services.
- * 
+ *
  * @param _app
  * @returns {Loader}
  * @constructor
@@ -89,7 +89,7 @@ function Loader(_app) {
             }
             winston.info(clc.green("  > " + controller.name));
         });
-    
+
     var AuthHandler = require('../middleware/auth.js');
     AuthHandler = new AuthHandler(app);
     var ErrorHandler = require('../middleware/error.js');
@@ -163,14 +163,14 @@ function Loader(_app) {
     RPCService = new RPCService(app, router);
     app.services.rpc = RPCService;
 
-    router.all('/*',  requestHandler.bind(this));
+    router.all('/*', requestHandler.bind(this));
 
     return this;
 
     /**
-     * 
+     *
      * Request wrapper for all endpoints.
-     * 
+     *
      * @param req
      * @param res
      * @param next

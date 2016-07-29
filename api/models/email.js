@@ -38,9 +38,7 @@ var Email = function (sequelize, DataTypes) {
         paranoid: false,
         updatedAt: false,
         tableName: 'emails',
-        classMethods: {
-
-        }
+        classMethods: {}
     });
 };
 

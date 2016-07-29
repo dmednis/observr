@@ -2,9 +2,9 @@ var _ = require('lodash');
 var md5 = require('md5');
 
 /**
- * 
+ *
  * SystemController. Responsible for system REST API endpoints.
- * 
+ *
  * @param _app
  * @returns {SystemController}
  * @constructor
@@ -27,9 +27,9 @@ function SystemController(_app) {
 
 
 /**
- * 
+ *
  * Returns a list of system sent emails.
- * 
+ *
  * @param params
  * @param done
  * @param req
@@ -49,9 +49,9 @@ SystemController.prototype.emails = function (params, done, req) {
 
 
 /**
- * 
+ *
  * Returns a list of system logs.
- * 
+ *
  * @param params
  * @param done
  * @param req

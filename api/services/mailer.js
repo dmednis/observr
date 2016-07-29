@@ -4,11 +4,11 @@ var _ = require('lodash');
 /**
  *
  * Mailer
- * 
+ *
  * @param app
  * @constructor
  */
-function Mailer (app) {
+function Mailer(app) {
     this.app = app;
     this.db = app.db;
     this.queue = app.services.queue;
@@ -65,7 +65,7 @@ function Mailer (app) {
 /**
  *
  * Sends mail.
- * 
+ *
  * @param to
  * @param subject
  * @param message

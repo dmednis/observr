@@ -80,7 +80,7 @@ ProjectsController.prototype.list = function (params, done, req) {
             );
 
             //TODO: get log count
-            
+
             return Promise.all(promises);
 
         }).then(function (results) {

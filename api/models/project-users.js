@@ -11,7 +11,7 @@
 var Project = function (sequelize, DataTypes) {
     return sequelize.define('projectUsers', {
         role: {
-            type: DataTypes.ENUM('member','admin'),
+            type: DataTypes.ENUM('member', 'admin'),
             defaultValue: 'member',
             allowNull: false
         }

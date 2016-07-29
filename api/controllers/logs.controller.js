@@ -4,9 +4,9 @@ var MongoClient = require('mongodb').MongoClient;
 
 
 /**
- * 
+ *
  * LogsController. Responsible for observed log endpoints.
- * 
+ *
  * @param _app
  * @returns {LogsController}
  * @constructor
@@ -28,9 +28,9 @@ function LogsController(_app) {
 
 
 /**
- * 
+ *
  * Returns a list of registered logs.
- * 
+ *
  * @param params
  * @param done
  * @param req
@@ -40,8 +40,8 @@ LogsController.prototype.list = function (params, done, req) {
         var url = 'mongodb://localhost:27017/observr';
         MongoClient.connect(url, function (err, db) {
             var collection = db.collection('logs_' + params.customFilters.pid);
-            collection.find({}).sort({time: -1}).limit(Number(params.limit)).skip(Number(params.offset)).toArray(function(err, _logs) {
-                collection.find({}).count(function(err2, count) {
+            collection.find({}).sort({time: -1}).limit(Number(params.limit)).skip(Number(params.offset)).toArray(function (err, _logs) {
+                collection.find({}).count(function (err2, count) {
                     if (err || err2) {
                         console.error(err, err2);
                     }
@@ -66,9 +66,9 @@ LogsController.prototype.list = function (params, done, req) {
 
 
 /**
- * 
+ *
  * Registers an incoming log.
- * 
+ *
  * @param params
  * @param done
  * @param req

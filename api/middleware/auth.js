@@ -6,9 +6,9 @@ var jwtVerifyAsync = Promise.promisify(jwt.verify, jwt);
 
 
 /**
- * 
+ *
  * AuthProvider. Provides middleware for user and application authentification.
- * 
+ *
  * @param _app
  * @returns {AuthProvider}
  * @constructor
@@ -16,7 +16,7 @@ var jwtVerifyAsync = Promise.promisify(jwt.verify, jwt);
 function AuthProvider(_app) {
     this.app = _app;
     this.secret = this.app.config.secret;
-    
+
     return this;
 }
 
@@ -62,7 +62,7 @@ AuthProvider.prototype.appMiddleware = function (req, res, next) {
     var apiId;
     var apiKey;
     var that = this;
-    
+
     if (req.body.apiKey) {
         apiKey = req.body.apiKey;
     }

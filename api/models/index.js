@@ -15,7 +15,6 @@ var pg = require('pg');
 delete pg.native;
 
 
-
 if (config.use_env_variable) {
     var sequelize = new Sequelize(process.env[dbConfig.use_env_variable]);
 } else {
@@ -53,7 +52,7 @@ Object.keys(db).forEach(function (modelName) {
 
 });
 
-sequelize.sync();
+//sequelize.sync();
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

@@ -37,7 +37,7 @@ function UsersController(_app) {
  */
 UsersController.prototype.list = function (params, done) {
     var query = this.db.user.makeGenericQuery(params, {attributes: {exclude: ['password']}});
-    
+
     return this.db.user.findAndCountAll(query)
         .then(function (result) {
             done(result);

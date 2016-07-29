@@ -9,18 +9,17 @@ var io = require('socket.io');
  * @returns queue
  * @constructor
  */
-function Socket (server) {
+function Socket(server) {
     this.socket = io(server);
 
     this.socket.on('connection', function (socket) {
         console.log("connected");
-        
+
 
     });
 
     return this.socket;
 }
-
 
 
 module.exports = Socket;

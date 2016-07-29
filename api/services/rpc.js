@@ -1,9 +1,9 @@
 var Promise = require('bluebird');
 
 /**
- * 
+ *
  * Serves endpoints for web client.
- * 
+ *
  * @param _app
  * @param router
  * @returns {RPCProvider}
@@ -44,7 +44,7 @@ RPCProvider.prototype.serve = function (req, res) {
                 "}";
         }
     }
-    
+
     var js = [];
     js.push("var RPC = angular.module('RPC', ['ng']); angular.module('RPC').provider('$rpc', function(){ this.$get=['$http',function($http) {");
 
@@ -58,10 +58,10 @@ RPCProvider.prototype.serve = function (req, res) {
         endpoints[route.ctrlName].push(route)
     }
     for (var ctr in endpoints) {
-        js.push('this.'+ctr+'={');
-        var funcs=[];
+        js.push('this.' + ctr + '={');
+        var funcs = [];
         for (var func in endpoints[ctr]) {
-            funcs.push(endpoints[ctr][func].name + ':' + makeFunc(endpoints[ctr][func])  );
+            funcs.push(endpoints[ctr][func].name + ':' + makeFunc(endpoints[ctr][func]));
         }
         js.push(funcs.join(',\n'));
         js.push('};');

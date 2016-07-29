@@ -4,14 +4,14 @@ var MongoClient = require('mongodb').MongoClient;
 
 
 /**
- * 
+ *
  * Handles all incoming application data.
- * 
+ *
  * @param app
  * @returns Observr
  * @constructor
  */
-function Observr (app) {
+function Observr(app) {
     this.app = app;
     this.db = this.app.db;
     this.queue = this.app.services.queue;
@@ -41,7 +41,11 @@ Observr.prototype.init = function () {
                 projectId: job.data.project.id
             }
         }).spread(function (error, created) {
-            if (created) {
+            if (created || (!created && error.resolved)) {
+                if (error.resolved) {
+                    error.resolved = false;
+                    error.save();
+                }
                 that.db.user.findAll({
                     include: [{
                         model: that.db.project,
@@ -87,7 +91,7 @@ Observr.prototype.init = function () {
     // init error processor
     this.queue.process('log', 20, function (job, done) {
         var url = 'mongodb://localhost:27017/observr';
-        MongoClient.connect(url, function(err, db) {
+        MongoClient.connect(url, function (err, db) {
             var collection = db.collection('logs_' + job.data.project.id);
             collection.insertMany([
                 {
@@ -95,7 +99,7 @@ Observr.prototype.init = function () {
                     type: job.data.type,
                     data: job.data.data
                 }
-            ], function(err, result) {
+            ], function (err, result) {
                 that.socket.emit('log', {
                     pid: job.data.project.id,
                     log: {
@@ -118,8 +122,8 @@ Observr.prototype.processError = function (project, message, stack, data) {
         stack: stack || "",
         data: data || {},
         project: project
-    }).save( function(err){
-       
+    }).save(function (err) {
+
     });
 };
 
@@ -128,8 +132,8 @@ Observr.prototype.processEvent = function (project, event, data) {
         event: event,
         data: data || {},
         project: project
-    }).save( function(err){
-        
+    }).save(function (err) {
+
     });
 };
 
@@ -139,13 +143,12 @@ Observr.prototype.processLog = function (project, type, time, data) {
         type: type,
         data: data || {},
         project: project
-    }).save( function(err){
-        if(!err) {
-            console.log( job.id );
+    }).save(function (err) {
+        if (!err) {
+            console.log(job.id);
         }
     });
 };
-
 
 
 module.exports = Observr;

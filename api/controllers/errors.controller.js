@@ -3,8 +3,8 @@ var md5 = require('md5');
 
 
 /**
- * 
- * ErrorsController. Responsible for ebserved error endpoints. 
+ *
+ * ErrorsController. Responsible for ebserved error endpoints.
  *
  * @param _app
  * @returns {ErrorsController}
@@ -14,22 +14,22 @@ function ErrorsController(_app) {
     this.app = _app;
     this.db = this.app.db;
     this.observr = this.app.services.observr;
-    
+
     this.name = 'errors';
     this.exposed = '*';
     this.public = [];
     this.middleware = {
         register: ['appAuth']
     };
-    
+
     return this;
 }
 
 
 /**
- * 
+ *
  * Returns a list of registered errors.
- * 
+ *
  * @param params
  * @param done
  * @param req
@@ -83,9 +83,9 @@ ErrorsController.prototype.list = function (params, done, req) {
 
 
 /**
- * 
+ *
  * Registers an incoming error.
- * 
+ *
  * @param params
  * @param done
  * @param req
@@ -101,9 +101,9 @@ ErrorsController.prototype.register = function (params, done, req) {
 
 
 /**
- * 
+ *
  * Returns a single error instance.
- * 
+ *
  * @param params
  * @param done
  * @param req
@@ -139,9 +139,9 @@ ErrorsController.prototype.get = function (params, done, req) {
 
 
 /**
- * 
+ *
  * Marks an error as solved.
- * 
+ *
  * @param params
  * @param done
  * @param req

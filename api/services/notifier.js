@@ -3,11 +3,11 @@ var _ = require('lodash');
 /**
  *
  * Notifier. Wrapper for Mailer.
- * 
+ *
  * @param app
  * @constructor
  */
-function Notifier (app) {
+function Notifier(app) {
     this.app = app;
     this.mailer = app.services.mailer;
     var that = this;
@@ -20,7 +20,7 @@ function Notifier (app) {
 /**
  *
  * Sends error notification email.
- * 
+ *
  * @param data
  * @param params
  */

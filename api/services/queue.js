@@ -2,14 +2,14 @@ var kue = require('kue');
 var _ = require('lodash');
 
 /**
- * 
+ *
  * Queue(kue) wrapper.
- * 
+ *
  * @param config
  * @returns queue
  * @constructor
  */
-function Queue (config) {
+function Queue(config) {
     this.config = config;
 
     var queue;
@@ -21,7 +21,7 @@ function Queue (config) {
                 port: config.redis_port || 6379,
                 host: config.redis_host || '127.0.0.1',
                 auth: config.redis_pass || '',
-                db: 1, // if provided select a non-default redis db
+                db: config.redis_db || 1, // if provided select a non-default redis db
                 options: {
                     // see https://github.com/mranney/node_redis#rediscreateclient
                 }
@@ -33,7 +33,6 @@ function Queue (config) {
 
     return queue;
 }
-
 
 
 module.exports = Queue;

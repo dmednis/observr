@@ -1,11 +1,11 @@
 /**
- * 
+ *
  * Logging helper.
- * 
+ *
  * @param _app
  * @constructor
  */
-function Logger (_app) {
+function Logger(_app) {
     this.app = _app;
     this.logDB = this.app.db.systemLog;
 

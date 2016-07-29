@@ -1,13 +1,13 @@
 var clc = require('cli-color');
 
 /**
- * 
+ *
  * ErrorHandler. Provides global error handler middleware.
- * 
+ *
  * @param _app
  * @constructor
  */
-function ErrorHandler (_app) {
+function ErrorHandler(_app) {
     this.app = _app;
 }
 
@@ -26,7 +26,7 @@ ErrorHandler.prototype.handler = function (err, req, res, next) {
             message: 'system error'
         })
     }
-    
+
     console.error(clc.red(err.message));
     console.error(clc.red(err.stack));
 };
