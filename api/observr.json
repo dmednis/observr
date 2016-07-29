@@ -1,0 +1,19 @@
+{
+  "apps": [
+    {
+      "name": "observr",
+      "script": "app.js",
+      "watch": false,
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "exec_mode": "",
+      "instances": 1,
+      "merge_logs": true,
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "max_restarts": 5,
+      "error_file": "logs/observr-err.log",
+      "out_file": "logs/observr-out.log"
+    }
+  ]
+}
