@@ -9,6 +9,7 @@
       },
       "exec_mode": "cluster",
       "instances": 1,
+      "max_memory_restart": "350M",
       "merge_logs": true,
       "log_date_format": "YYYY-MM-DD HH:mm Z",
       "max_restarts": 5,
