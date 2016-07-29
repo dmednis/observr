@@ -179,6 +179,8 @@ function Loader(_app) {
         var that = this;
         var resolved;
 
+        console.log('hit route request handler');
+
         var resolvedIdx = _.findIndex(endpoints, {
             url: req.route.path,
             method: req.method.toLowerCase()

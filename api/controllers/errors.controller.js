@@ -36,6 +36,7 @@ function ErrorsController(_app) {
  * @returns {*}
  */
 ErrorsController.prototype.list = function (params, done, req) {
+    console.log('hit controller');
     var that = this;
     var query = this.db.error.makeGenericQuery(params, {
         include: [
