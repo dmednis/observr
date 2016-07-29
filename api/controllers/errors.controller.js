@@ -39,6 +39,7 @@ ErrorsController.prototype.list = function (params, done, req) {
     console.log('hit controller');
     try {
     var that = this;
+        console.log('0');
     var query = this.db.error.makeGenericQuery(params, {
         include: [
             {
