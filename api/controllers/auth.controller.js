@@ -112,7 +112,7 @@ AuthController.prototype._ldapLogin = function (params, done, req) {
                                 };
                                 var token = jwt.sign(tokeninfo, that.secret);
                                 user.lastLogin = new Date();
-                                user.lastLoginIP = req.ip;
+                                user.lastLoginIP = req.headers['x-forwarded-for'] || req.ip;
                                 done({user: _user, token: token});
                                 user.save();
                             });
