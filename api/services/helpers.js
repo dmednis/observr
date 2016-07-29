@@ -176,6 +176,7 @@ module.exports = {
             if (!model) {
                 model = this;
             }
+            console.log('11');
 
             var query = {
                 offset: params.offset ? params.offset : 0,
@@ -201,7 +202,7 @@ module.exports = {
                     query.where.$or = search;
                 }
             }
-
+            console.log('22');
             if (params.combinedFilters) {
                 var combinedFilters = this.buildSequelizeQuery(this.parseCombinedFilters(params.combinedFilters, model), model);
                 if (combinedFilters) {
@@ -211,7 +212,7 @@ module.exports = {
                     query.where.$or = _.union(query.where.$or, combinedFilters);
                 }
             }
-
+            console.log(33);
             if (params.filters) {
                 var filters = this.buildSequelizeQuery(params.filters, model);
                 if (filters) {
@@ -227,7 +228,7 @@ module.exports = {
             }
 
             query = _.merge(query, overwrites);
-
+            console.log(44);
             return query;
         }
     }
