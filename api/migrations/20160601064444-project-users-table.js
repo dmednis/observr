@@ -6,14 +6,22 @@ module.exports = {
             project_id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
-                autoIncrement: true,
-                allowNull: false
+                allowNull: false,
+                field: 'project_id',
+                references: {
+                    model: 'projects',
+                    key: 'id'
+                }
             },
             user_id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
-                autoIncrement: true,
-                allowNull: false
+                allowNull: false,
+                field: 'user_id',
+                references: {
+                    model: 'users',
+                    key: 'id'
+                }
             },
             role: {
                 type: Sequelize.ENUM('member', 'admin'),

@@ -2,24 +2,26 @@
 
 module.exports = {
     up: function (queryInterface, Sequelize) {
-        return queryInterface.createTable('errors', {
+        return queryInterface.createTable('events', {
             id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
                 allowNull: false
             },
-            hash: {
-                type: Sequelize.STRING(32),
-                allowNull: false,
+            name: {
+                type: Sequelize.STRING(30)
             },
-            resolved: {
-                type: Sequelize.BOOLEAN,
-                allowNull: false,
-                defaultValue: false
+            data: {
+                type: Sequelize.JSONB
             },
             project_id: {
-                type: Sequelize.INTEGER
+                type: Sequelize.INTEGER,
+                field: 'project_id',
+                references: {
+                    model: 'projects',
+                    key: 'id'
+                }
             },
             created_at: {
                 type: Sequelize.DATE,
@@ -34,7 +36,7 @@ module.exports = {
 
     down: function (queryInterface, Sequelize) {
 
-        return queryInterface.dropTable('errors');
+        return queryInterface.dropTable('events');
 
     }
 };

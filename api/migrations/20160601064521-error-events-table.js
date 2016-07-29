@@ -23,6 +23,14 @@ module.exports = {
             created_at: {
                 type: Sequelize.DATE,
                 allowNull: false
+            },
+            error_id: {
+                type: Sequelize.INTEGER,
+                field: 'error_id',
+                references: {
+                    model: 'errors',
+                    key: 'id'
+                }
             }
         });
     },
