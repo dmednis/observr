@@ -176,7 +176,7 @@ module.exports = {
             if (!model) {
                 model = this;
             }
-            console.log('11');
+            console.log('11', model);
 
             var query = {
                 offset: params.offset ? params.offset : 0,
@@ -214,9 +214,12 @@ module.exports = {
             }
             console.log(33);
             if (params.filters) {
+                console.log(111);
                 var filters = this.buildSequelizeQuery(params.filters, model);
+                console.log(222);
                 if (filters) {
                     var unionArray = _.union(query.where.$and, filters);
+                    console.log(333);
 
                     if (unionArray.length) {
                         if (!query.where.$and) {
@@ -226,7 +229,7 @@ module.exports = {
                     }
                 }
             }
-
+            console.log(444);
             query = _.merge(query, overwrites);
             console.log(44);
             return query;
