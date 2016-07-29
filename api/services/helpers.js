@@ -232,6 +232,10 @@ module.exports = {
             console.log(444);
             console.log('query', query);
             console.log('overwrites', overwrites);
+            console.log(_.VERSION);
+            process.on('uncaughtException', function (err) {
+                console.log('Caught exception: ' + err);
+            });
             try {
                 query = _.merge(query, overwrites);
             } catch (e) {
