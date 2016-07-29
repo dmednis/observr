@@ -19,7 +19,7 @@ if (config.use_env_variable) {
     var sequelize = new Sequelize(process.env[dbConfig.use_env_variable]);
 } else {
     var sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, _.merge(dbConfig, {
-        timezone: '+02:00',
+        timezone: 'Europe/Riga',
         logging: config.debug ? console.log : false,
         dialectOptions: {
             charset: 'utf8',
