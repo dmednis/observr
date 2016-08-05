@@ -27,6 +27,7 @@ function Queue(config) {
                 }
             }
         });
+        kue.app.listen(4110);
     } catch (e) {
         console.error('Cannot connect to redis.');
     }
