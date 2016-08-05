@@ -32,6 +32,7 @@ AuthProvider.prototype.middleware = function (req, res, next) {
         return jwtVerifyAsync(token, that.secret)
             .then(function (decoded) {
                 if (!decoded || !decoded.id) {
+                    console.log('no decode');
                     throw {reason: 'decode error', code: 401};
                 }
                 var key = 'user_' + decoded.id;
@@ -43,6 +44,7 @@ AuthProvider.prototype.middleware = function (req, res, next) {
                 });
             }).then(function (user) {
                 if (!user || !user.id) {
+                    console.log('no user');
                     throw {reason: 'decode error', code: 401};
                 } else {
                     req.user = user;

@@ -2,7 +2,7 @@
     <div class="box-header with-border">
         <div class="user-block">
             <span><i class="fa fa-bug fa-2x"></i></span>
-            <span class="username" ng-bind="::ei.error.errorEvents[0].message"></span>
+            <span class="username" ng-bind="::ei.error.message"></span>
             <span class="description" ng-bind="::ei.error.created_at | format_date"></span>
         </div>
         <div class="box-tools">
@@ -13,7 +13,7 @@
     </div>
 
     <div class="box-body" style="display: block;">
-        <pre ng-bind="::ei.error.errorEvents[0].stack"></pre>
+        <pre ng-bind="::ei.error.stack"></pre>
     </div>
 
     <div class="box-footer box-comments" style="display: block;">

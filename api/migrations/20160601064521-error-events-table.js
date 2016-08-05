@@ -12,7 +12,6 @@ module.exports = {
             message: {
                 type: Sequelize.STRING(255),
                 allowNull: false
-
             },
             stack: {
                 type: Sequelize.STRING(4096)

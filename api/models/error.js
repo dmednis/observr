@@ -18,12 +18,24 @@ var SystemError = function (sequelize, DataTypes) {
         },
         hash: {
             type: DataTypes.STRING(32),
-            allowNull: false,
+            allowNull: false
+        },
+        message: {
+            type: DataTypes.STRING(512),
+            allowNull: false
+        },
+        stack: {
+            type: DataTypes.STRING(10240)
         },
         resolved: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
+        },
+        lastOccurrence: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            field: 'last_occurrence'
         },
         projectId: {
             type: DataTypes.INTEGER,
@@ -37,6 +49,7 @@ var SystemError = function (sequelize, DataTypes) {
             associate: function (models) {
                 this.belongsTo(models.project);
                 this.hasMany(models.errorEvent);
+                this.belongsToMany(models.user, {as: 'members', through: models.projectUsers});
             }
         }
     });

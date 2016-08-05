@@ -38,13 +38,8 @@ function ErrorsController(_app) {
 ErrorsController.prototype.list = function (params, done, req) {
     var that = this;
     var query = this.db.error.makeGenericQuery(params, {
+        order: [['last_occurrence', 'DESC']],
         include: [
-            {
-                model: this.db.errorEvent,
-                as: 'errorEvents',
-                attributes: ['created_at', 'message'],
-                required: false
-            },
             {
                 model: this.db.project,
                 as: 'project',
@@ -73,11 +68,6 @@ ErrorsController.prototype.list = function (params, done, req) {
 
             return that.db.error.findAndCountAll(query)
                 .then(function (errors) {
-                    for (var e = 0; e < errors.rows.length; e++) {
-                        var error = errors.rows[e].get();
-                        errors.rows[e] = error;
-                        errors.rows[e].errorEvents = [error.errorEvents[0]]
-                    }
                     done(errors);
                 });
         });
@@ -127,7 +117,8 @@ ErrorsController.prototype.get = function (params, done, req) {
                     {
                         model: that.db.errorEvent,
                         as: 'errorEvents',
-                        required: false
+                        required: false,
+                        order: [['created_at', 'DESC']]
                     }
                 ]
             }).then(function (error) {

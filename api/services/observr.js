@@ -33,19 +33,20 @@ Observr.prototype.init = function () {
     // init error processor
     this.queue.process('error', 5, function (job, done) {
         var hash = md5(job.data.message + job.data.stack);
+        var error;
         return that.db.error.findOrCreate({
             where: {
                 hash: hash
             },
             defaults: {
-                projectId: job.data.project.id
+                projectId: job.data.project.id,
+                message: job.data.message,
+                stack: job.data.stack,
+                lastOccurrence: job.data.time
             }
-        }).spread(function (error, created) {
-            if (created || (!created && error.resolved)) {
-                if (error.resolved) {
-                    error.resolved = false;
-                    error.save();
-                }
+        }).spread(function (_error, created) {
+            error = _error;
+            if (created || (!created && _error.resolved)) {
                 that.db.user.findAll({
                     include: [{
                         model: that.db.project,
@@ -59,7 +60,8 @@ Observr.prototype.init = function () {
                         mails.push(user.email);
                     });
                     that.notifier.notifyError({
-                        project: job.data.project, error: {
+                        project: job.data.project,
+                        error: {
                             message: job.data.message,
                             stack: job.data.stack,
                             data: job.data.data
@@ -67,10 +69,15 @@ Observr.prototype.init = function () {
                     }, {recipients: mails});
                 });
             }
+            if (error.lastOccurrence.getTime() < new Date(job.data.time).getTime()) {
+                error.lastOccurrence = job.data.time;
+            }
+            error.resolved = false;
+            return error.save();
+        }).then(function () {
             return error.createErrorEvent({
-                message: job.data.message,
-                stack: job.data.stack,
-                data: job.data.data
+                data: job.data.data,
+                createdAt: job.data.time
             });
         }).then(function (errEvent) {
             done();
@@ -82,7 +89,8 @@ Observr.prototype.init = function () {
         that.db.event.create({
             name: job.data.event,
             data: job.data.data,
-            projectId: job.data.project.id
+            projectId: job.data.project.id,
+            createdAt: job.data.time
         }).then(function (event) {
             done();
         });
@@ -121,9 +129,13 @@ Observr.prototype.processError = function (project, message, stack, data) {
         message: message,
         stack: stack || "",
         data: data || {},
-        project: project
+        time: new Date(),
+        project: project,
+        title: 'Error - ' + project.identifier
     }).save(function (err) {
-
+        if (!err) {
+            console.log(job.id);
+        }
     });
 };
 
@@ -131,9 +143,13 @@ Observr.prototype.processEvent = function (project, event, data) {
     var job = this.queue.create('event', {
         event: event,
         data: data || {},
-        project: project
+        time: new Date(),
+        project: project,
+        title: 'Event - ' + project.identifier
     }).save(function (err) {
-
+        if (!err) {
+            console.log(job.id);
+        }
     });
 };
 
@@ -142,7 +158,8 @@ Observr.prototype.processLog = function (project, type, time, data) {
         time: time || new Date(),
         type: type,
         data: data || {},
-        project: project
+        project: project,
+        title: 'Log - ' + project.identifier
     }).save(function (err) {
         if (!err) {
             console.log(job.id);

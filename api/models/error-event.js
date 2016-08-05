@@ -16,14 +16,6 @@ var SystemErrorEvent = function (sequelize, DataTypes) {
             autoIncrement: true,
             allowNull: false
         },
-        message: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-
-        },
-        stack: {
-            type: DataTypes.STRING(10240)
-        },
         data: {
             type: DataTypes.JSONB
         }
