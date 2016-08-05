@@ -22,7 +22,7 @@ var SystemErrorEvent = function (sequelize, DataTypes) {
 
         },
         stack: {
-            type: DataTypes.STRING(4096)
+            type: DataTypes.STRING(10240)
         },
         data: {
             type: DataTypes.JSONB
