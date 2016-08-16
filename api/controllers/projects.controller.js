@@ -112,7 +112,7 @@ ProjectsController.prototype.get = function (params, done, req) {
         where: {id: params.id}
     };
 
-    if (!(req.user.role == 'admin' && params.admin)) {
+    //if (!(req.user.role == 'admin' && params.admin)) {
         query.include = [
             {
                 model: that.db.user,
@@ -121,9 +121,9 @@ ProjectsController.prototype.get = function (params, done, req) {
                 attributes: ['id', 'firstName', 'lastName']
             }
         ];
-    } else {
-        query.include = [];
-    }
+    // } else {
+    //     query.include = [];
+    // }
 
     return this.db.project.findOne(query).then(function (project) {
         if (project) {

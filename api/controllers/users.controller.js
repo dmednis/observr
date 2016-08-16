@@ -17,7 +17,7 @@ function UsersController(_app) {
     this.public = [];
 
     this.middleware = {
-        list: ['auth', 'admin'],
+        list: ['auth'],
         get: ['auth', 'admin'],
         update: ['auth', 'admin'],
         new: ['auth', 'admin'],
