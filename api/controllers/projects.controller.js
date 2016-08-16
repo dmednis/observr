@@ -117,7 +117,7 @@ ProjectsController.prototype.get = function (params, done, req) {
             {
                 model: that.db.user,
                 as: 'members',
-                where: {id: req.user.id},
+                //where: {id: req.user.id},
                 attributes: ['id', 'firstName', 'lastName']
             }
         ];
