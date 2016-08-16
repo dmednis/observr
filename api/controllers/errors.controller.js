@@ -152,7 +152,7 @@ ErrorsController.prototype.solve = function (params, done, req) {
             return that.db.error.findOne({
                 where: {id: params.pid}
             }).then(function (error) {
-                if (allowedProjects.indexOf(error.projectId)) {
+                if (allowedProjects.indexOf(error.projectId) < 0) {
                     done({message: 'access denied'}, 403);
                     return false;
                 } else {
