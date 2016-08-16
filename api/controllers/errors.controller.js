@@ -122,7 +122,7 @@ ErrorsController.prototype.get = function (params, done, req) {
                     }
                 ]
             }).then(function (error) {
-                if (allowedProjects.indexOf(error.projectId)) {
+                if (allowedProjects.indexOf(error.projectId) < 0) {
                     done({message: 'access denied'}, 403);
                     return;
                 }
