@@ -110,7 +110,7 @@ EventsController.prototype.get = function (params, done, req) {
                 where: {id: params.id}
             }).then(function (event) {
                 console.log(event.get());
-                if (allowedProjects.indexOf(event.projectId)) {
+                if (allowedProjects.indexOf(event.projectId) < 0) {
                     done({message: 'access denied'}, 403);
                     return;
                 }
