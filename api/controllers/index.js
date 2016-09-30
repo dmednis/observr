@@ -213,13 +213,13 @@ function Loader(_app) {
             if (typeof code == 'undefined') {
                 code = 200;
             }
-            if (code != 200) {
-                res.set({
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
-                    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT'
-                });
-            }
+            
+            res.set({
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
+                'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT'
+            });
+            
             res.status(code).json(result);
         }, req, res);
 
