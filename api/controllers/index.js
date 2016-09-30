@@ -189,12 +189,12 @@ function Loader(_app) {
         }
 
         if (typeof resolved == 'undefined') {
-            res.status(404).json({message: "no endpoint"});
             res.set({
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
                 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT'
             });
+            res.status(404).json({message: "no endpoint"});
             return;
         }
 
