@@ -194,7 +194,11 @@ function Loader(_app) {
                 'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
                 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT'
             });
-            res.status(404).json({message: "no endpoint"});
+            if (req.method == 'OPTIONS') {
+                res.status(200).json({message: "no endpoint"});
+            } else {
+                res.status(404).json({message: "no endpoint"});
+            }
             return;
         }
 
