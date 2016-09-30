@@ -76,7 +76,11 @@ AuthController.prototype._ldapLogin = function (params, done, req) {
         if (!user || user.ldap) {
             ad.authenticate(params.username + '@' + ldapConfig.domain, params.password, function (err, auth) {
                 if (err) {
-                    done({message: 'server error', error: err}, 500);
+                    if (err.code == 49) {
+                        done({message: 'invalid auth'}, 401);
+                    } else {
+                        done({message: 'server error', error: err}, 500);
+                    }
                     return;
                 }
                 if (auth) {
