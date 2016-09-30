@@ -109,12 +109,13 @@ UsersController.prototype.update = function (params, done, req) {
         deferrable: that.db.Sequelize.Deferrable.SET_DEFERRED,
         logging: console.log
     }, function (t) {
-        return that.db.user.findOne({where: {id: params.id}, attributes: {exclude: 'password'}, transaction: t})
+        return that.db.user.findOne({where: {id: params.id}, transaction: t})
             .then(function (_user) {
                 user = _user;
                 user.set(params);
                 return user.save({transaction: t})
             }).then(function (_user) {
+                delete _user.password;
                 done(_user);
                 that.logger.log('user:update', {projectId: _user.id, userId: req.user.id});
             })
